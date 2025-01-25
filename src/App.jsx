@@ -1,14 +1,26 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+
 import './App.css'
+import {createBrowserRouter, RouterProvider} from "react-router-dom"
+import Layout from './Containers/Layout/Layout'
+import Home from './Components/Home/Home'
 
 function App() {
-  const [count, setCount] = useState(0)
+ 
+  const router = createBrowserRouter([
+    {
+      element : <Layout />,
+      children : [
+        {
+          path : "/" ,
+          element : <Home />
+        }
+      ]
+    }
+  ])
 
   return (
    <>
-   <h1>Google Drive</h1>
+     <RouterProvider router={router} />
    </>
   )
 }
