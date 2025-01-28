@@ -7,8 +7,12 @@ import { IoSettingsSharp } from "react-icons/io5";
 import { SiGooglegemini } from "react-icons/si";
 import { IoApps } from "react-icons/io5";
 import { MdClear } from "react-icons/md";
+import { useSelector } from 'react-redux';
 
 const Header = () => {
+   const userData = useSelector(state => state.user.userData);
+ console.log(userData);
+ 
   return (
   <>
    <header className={styles.header}>
@@ -30,7 +34,7 @@ const Header = () => {
        <SiGooglegemini className={styles.rightIcons} role='button' />
        <IoApps className={styles.rightIcons} role='button'/>
        <div className={styles.profile_picture}>
-        <img src="https://tse4.mm.bing.net/th?id=OIP.SAcV4rjQCseubnk32USHigHaHx&pid=Api&P=0&h=180" alt="" />
+        <img src={userData.photoURL ? userData.photoURL : "https://tse4.mm.bing.net/th?id=OIP.SAcV4rjQCseubnk32USHigHaHx&pid=Api&P=0&h=180"} alt="" />
        </div>
        </div>
    </header>

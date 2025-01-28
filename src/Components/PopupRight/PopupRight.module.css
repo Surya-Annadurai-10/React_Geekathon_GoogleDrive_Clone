@@ -1,0 +1,14 @@
+.PopupRightCon{
+    height: 100vh;
+    width: 25%;
+    background-color: #ffffff;
+    position: relative;
+    transition: 0.5s ease-in;
+}
+
+.clear{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    font-size: 1.3rem;
+}

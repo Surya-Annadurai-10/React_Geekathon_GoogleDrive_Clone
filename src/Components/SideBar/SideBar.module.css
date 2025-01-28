@@ -1,0 +1,103 @@
+.sidebarCon{
+    width: 21%;
+    height: 100%;
+    background-color: #F8FAFD;
+    padding:0.5rem 1rem;
+}
+
+.new{
+    width: 95px;
+    height: 48px;
+    border-radius: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    box-shadow: 1px 2px 4px rgb(142, 142, 142);
+    margin-left: 0.5rem;
+    /* background-color: red; */
+}
+
+.plus{
+    font-size: 1.3rem;
+    color: #1F1F1F;
+}
+
+.new h3{
+    font-weight: 200;
+    font-size: 1rem;
+}
+
+.link_con{
+   margin: 1rem 0;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   flex-direction: column;
+  /* gap: 1rem; */
+}
+
+.home{
+    width: 100%;
+    text-decoration: none;
+    height: 33px;
+    border-radius:17px ;
+    /* background-color: #C2E7FF; */
+    display: flex;
+    align-items: center;
+    padding-left: 1rem;
+    justify-content: flex-start;
+    gap: 1rem;
+    color: #1F1F1F;
+    /* color: #004A77; */
+    font-size: 0.9rem;
+}
+
+.home_logo{
+    font-size: 1.4rem;
+}
+
+.home:hover{
+    background-color: #eaeaea;
+}
+.progressBarCon{
+ width: 100%;
+ /* background-color: red; */
+ padding:0 1rem;
+}
+
+.progressBar{
+    width: 180px;
+    height: 8px;
+    margin: 0.5rem 0;
+    /* border: none; */
+    /* background-color: grey; */
+}
+
+
+.progressBarCon p{
+    color: #444746;
+    font-size: 0.9rem;
+}
+
+.getCon{
+ width: 90%;
+ margin: 0.5rem ;
+ /* background-color: red; */
+}
+
+.get{
+    width: 150px;
+    height: 37px;
+    font-size: 0.9rem;
+    border-radius: 25px;
+    border: 1px solid  #636464;
+    color: #0B64D3;
+    background: #fff;
+    /* font-weight: 400; */
+}
+
+.get:hover{
+    background: transparent;
+}
+

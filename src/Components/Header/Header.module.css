@@ -29,9 +29,12 @@ background-color:#F8FAFD;
     color: #444746;
 }
 
-.profile_picture{
-    width: 35px;
+.profile_picture img{
+    min-width: 35px;
     height: 35px;
+    border-radius: 50%;
+    object-fit: cover,
+     /* background-image: url("https://lh3.googleusercontent.com/a/ACg8ocLU93oxLLI6yAHfkWD5zt5CPwBLUx22mUZg5yyQwzvkc3-a0A=s96-c"); */
 }
 
 .profile_picture img{
@@ -85,7 +88,7 @@ background-color:#F8FAFD;
 .searchBtn,
 .clearBtn,
 .sortBtn {
- width: 39px;
+ min-width: 39px;
  height: 39px;
  border-radius: 50%;
  padding: 0.5rem;
@@ -94,7 +97,7 @@ background-color:#F8FAFD;
 }
 
 .rightIcons{
-    width: 42px;
+    min-width: 42px;
     height: 42px;
     border-radius: 50%;
     padding: 0.7rem;

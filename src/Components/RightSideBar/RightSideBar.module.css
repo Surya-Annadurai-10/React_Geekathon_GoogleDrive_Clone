@@ -1,0 +1,72 @@
+.RightSideBarCon{
+   width: 4%;
+   background-color: #F8FAFD;
+   /* background-color: red; */
+ position: relative;
+   height: 100%;
+   display: flex;
+   align-items: center;
+   justify-content: flex-start;
+   gap: 2rem;
+   flex-direction: column;
+   padding: 1rem 0;
+}
+
+.img_con img{
+    width: 40px;
+    /* height: 30px; */
+    /* border-radius: 50%;
+    background-color: red; */
+}
+.wrapper{
+    width: 50px;
+    height: 50px;
+    display: grid;
+    place-items: center;
+    border-radius: 50px;
+
+}
+
+.keep{
+    width: 30px;
+}
+
+.tasks{
+    width: 35px;
+}
+
+.contacts{
+    width: 20px;
+}
+
+.wrapper:hover{
+   background-color: #dad9d9;
+   /* background-color: red; */
+}
+
+.add{
+    font-size: 1.8rem;
+    border-radius: 50%;
+    border: none;
+    margin: 1rem;
+    color: #000;
+    background: transparent;
+}
+
+.leftIcon:hover{
+   background-color: #dad9d9;
+
+}
+
+.leftIcon{
+    font-size: 2rem;
+    position: absolute;
+    bottom: 3%;
+    height: 40px;
+    width: 40px;
+    display: grid;
+    place-items: center;
+    right: 15%;
+    border-radius: 50%;
+    /* background-color: red; */
+}

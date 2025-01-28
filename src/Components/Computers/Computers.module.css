@@ -1,0 +1,125 @@
+.computersCon{
+    width: 100%;
+    height: 100%;
+    background-color: rgb(255, 255, 255);
+    border-radius: 15px;
+}
+
+.computersCon h1{
+    font-weight: 200;
+    font-size: 1.7rem;
+    color: #454545;
+}
+
+.blueCon{
+    width: 95%;
+    height: 13%;
+    border-radius: 10px;
+    background-color: #D3E3FD;
+    margin: auto;
+    display: flex;
+    /* align-items: center; */
+    justify-content: center;
+    position: relative;
+}
+
+.infoCon{
+    width: 5%;
+    height: 80%;
+    /* background-color: red; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   
+}
+
+.infoContent{
+    width: 95%;
+    height: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.infoContent h2{
+    color: #0842A0;
+    font-weight: 200;
+    font-size: 1.4rem;
+}
+
+.infoContent p{
+    color: #0842A0;
+    font-weight: 200;
+}
+
+.infoContent p a{
+    color: #0842A0;
+    font-weight: 200;
+    font-weight: bold;
+    text-decoration: none;
+
+}
+
+.compHead{
+    width: 95%;
+    height: 15%;
+    margin: auto;
+    display: flex;
+    margin-top: 1.3rem;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.infoContent p a:hover{
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.clearBtn{
+    position: absolute;
+    right: 7px;
+    top: 7px;
+   font-size: 1.4rem;
+   color:#0842A0;
+}
+
+.dataCon{
+    width: 100%;
+    height: 70%;
+    /* background-color: red; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.dataCon img{
+    width: 300px;
+}
+
+.dataCon h2{
+    color: #1F1F26;
+    font-weight: 200;
+
+}
+
+.dataCon p{
+    color: #444D5E;
+}
+
+.learn{
+  color: #3257D3;
+  text-decoration: none;
+
+}
+.learn:hover{
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+/* .computersCon{
+   width: 77%;
+} */
