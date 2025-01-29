@@ -1,7 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styles  from './Home.module.css'
-
+import { useSelector } from 'react-redux'
+import { firestore } from '../../firebase'
+import { collection, getDoc } from 'firebase/firestore'
 const Home = () => {
+
+  const stateData = useSelector(state => state.files);
+  const filesData = collection(firestore , "files")
+  // useEffect(() =>{
+  //     async 
+  // })
+
   return (
    <>
       <div className={styles.homeCon}>

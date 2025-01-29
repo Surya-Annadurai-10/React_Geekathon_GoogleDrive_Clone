@@ -19,10 +19,12 @@ const userSlice = createSlice({
         },
         addInFiles(state , action){
             state.files.push(action.payload);
+            // console.log("files:" , action.payload);
+            
         }
     }
 })
-// console.log(initState);
+console.log(initState);
 
 export const userReducers = userSlice.reducer;
 export const {addUser,addInFiles} = userSlice.actions;
