@@ -24,6 +24,17 @@ const Login = () => {
             
 
            console.log(user);
+
+           if(localStorage.getItem("user") == null){
+            localStorage.setItem("user" , JSON.stringify(user))
+            dispatch(addUser(user));
+            navigate("/home")
+           }else{
+              let useData = JSON.parse(localStorage.getItem("user"));
+              dispatch(addUser(useData));
+              navigate("/home");
+           }
+          
            dispatch(addUser(user));
            
            navigate("/home")

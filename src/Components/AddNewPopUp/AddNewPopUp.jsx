@@ -24,8 +24,8 @@ const AddNewPopUp = (props) => {
  const handleFileSubmit = async() =>{
     const [files] = await window.showOpenFilePicker();
     const file = await files.getFile();
+    props.setShowNewAdd(false)
    console.log(file);
-   
    setImageUpload(file);
 
 
@@ -37,7 +37,7 @@ const AddNewPopUp = (props) => {
  useEffect(() =>{
     async function name(params) {
         // creating reference where to store in while folder and in what name
-        const imageRef = ref(storage , `files/${imageUpload.name + v4()}`);
+        const imageRef = ref(storage , `files/${imageUpload.name}`);
         // uploading the file inside the reference
         const res = await uploadBytes(imageRef , imageUpload);
         // getting the url of the image
@@ -48,14 +48,15 @@ const AddNewPopUp = (props) => {
           type : imageUpload.type,
           lastModifiedDate : imageUpload.lastModifiedDate + "",
           lastModified : imageUpload.lastModified,
-          imageURL : url
+          imageURL : url,
+          id : v4()
          }
     
          console.log(reduxObj);
          dispatch(addInFiles(reduxObj));
          await addDoc(fileDataRef , reduxObj);
          alert("fileData added in firestore")
-         
+        
     }
     if(imageUpload){
       name();

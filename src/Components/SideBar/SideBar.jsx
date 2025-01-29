@@ -24,7 +24,7 @@ const SideBar = () => {
           <h3>New</h3>
         </div>
         <div className={styles.link_con}>
-          <Link to={"/"} className={styles.home}>
+          <Link to={"/home"} className={styles.home}>
             <GoHome  className={styles.home_logo} />
             <p>Home</p>
           </Link>

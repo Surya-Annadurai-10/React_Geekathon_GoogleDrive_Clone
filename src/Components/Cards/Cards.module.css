@@ -1,0 +1,58 @@
+.cardCon{
+    border-bottom: 1px solid grey;
+    text-align: center;
+    width: 100%;
+    height: 50px;
+}
+
+.cardCon td{
+    padding: 1rem;
+}
+
+.nameData{
+    display: flex;
+    align-items: center;
+   
+    gap: 0.3rem;
+}
+
+.ownerCon{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    justify-content: center;
+    /* background-color: yellow; */
+    /* width: 100%;
+    height: 100%; */
+}
+
+.reasoned{
+    color: grey;
+    font-size: 0.9rem;
+}
+
+.profile_picture{
+    min-width: 15px;
+    height:22px;
+    border-radius: 50%;
+    object-fit: cover,
+     /* background-image: url("https://lh3.googleusercontent.com/a/ACg8ocLU93oxLLI6yAHfkWD5zt5CPwBLUx22mUZg5yyQwzvkc3-a0A=s96-c"); */
+}
+
+.profile_picture img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.nameData a {
+    text-decoration: none;
+    color: black;
+}
+
+.nameData a:hover{
+    /* /* color: darkblue; */
+    text-decoration: underline;
+    cursor: pointer;
+}
