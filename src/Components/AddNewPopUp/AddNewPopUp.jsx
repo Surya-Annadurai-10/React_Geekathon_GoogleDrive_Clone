@@ -12,21 +12,29 @@ import { MdDriveFolderUpload } from "react-icons/md";
 import JSZip from 'jszip';
 import { collection,addDoc } from 'firebase/firestore';
 import { firestore } from '../../firebase';
+import Notification from '../Notification/Notification';
 
 const fileDataRef = collection(firestore , "files");
 
 
 const AddNewPopUp = (props) => {
     const dispatch = useDispatch();
+    const[showNotification , setShowNotification] = useState(false);
+  
     const [imageUpload , setImageUpload] = useState(null);
   // const [fileDoc , setFileDoc] = useState("");
 
  const handleFileSubmit = async() =>{
-    const [files] = await window.showOpenFilePicker();
+    try {
+      const [files] = await window.showOpenFilePicker();
     const file = await files.getFile();
-    props.setShowNewAdd(false)
-   console.log(file);
-   setImageUpload(file);
+    console.log(file);
+    setImageUpload(file);
+    console.log("Image Uploaded in state");
+    
+    } catch (error) {
+      console.log("Error fetching data from ur system :" , error)
+    }
 
 
 
@@ -36,31 +44,44 @@ const AddNewPopUp = (props) => {
 
  useEffect(() =>{
     async function name(params) {
-        // creating reference where to store in while folder and in what name
-        const imageRef = ref(storage , `files/${imageUpload.name}`);
-        // uploading the file inside the reference
-        const res = await uploadBytes(imageRef , imageUpload);
-        // getting the url of the image
-        const url = await getDownloadURL(res.ref)
-         const reduxObj = {
-          name : imageUpload.name,
-          size: imageUpload.size,
-          type : imageUpload.type,
-          lastModifiedDate : imageUpload.lastModifiedDate + "",
-          lastModified : imageUpload.lastModified,
-          imageURL : url,
-          id : v4()
-         }
-    
-         console.log(reduxObj);
-         dispatch(addInFiles(reduxObj));
-         await addDoc(fileDataRef , reduxObj);
-         alert("fileData added in firestore")
+  console.log("entering useEffect to uplaod file in the storage")
+
+      try {
+          // creating reference where to store in while folder and in what name
+          const imageRef = ref(storage , `files/${imageUpload.name}`);
+          // uploading the file inside the reference
+          const res = await uploadBytes(imageRef , imageUpload);
+          // getting the url of the image
+          const url = await getDownloadURL(res.ref)
+          console.log("url" , url);
+          
+           const reduxObj = {
+            name : imageUpload.name,
+            size: imageUpload.size,
+            type : imageUpload.type,
+            lastModifiedDate : imageUpload.lastModifiedDate + "",
+            lastModified : imageUpload.lastModified,
+            imageURL : url,
+            id : v4()
+           }
+      
+           console.log(reduxObj);
+           dispatch(addInFiles(reduxObj));
+           await addDoc(fileDataRef , reduxObj);
+           alert("fileData added in firestore");
+            props.setShowNewAdd(false)
+            setShowNotification(true);
+      } catch (error) {
+        console.log("Error while uploading the file :" , error)
+      }
         
     }
     if(imageUpload){
       name();
     }
+
+    console.log("imageUpload :" , imageUpload);
+    
  },[imageUpload]);
 
  const handleFolderSubmit = async () =>{
@@ -191,6 +212,10 @@ const AddNewPopUp = (props) => {
                   </div>
         </div>
        </div>
+
+       {
+         showNotification ? <Notification setShowNotification = {setShowNotification} /> : null
+       }
        {/* <div className={styles.container}>
            <form onSubmit={handleSubmit}>
             <h2>Select the file you want to upload</h2>

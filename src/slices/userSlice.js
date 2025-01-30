@@ -7,7 +7,8 @@ const initState = {
      photoURL : "" ,
      uid : ""
   },
-  files : []
+  files : [],
+  
 }
 
 const userSlice = createSlice({

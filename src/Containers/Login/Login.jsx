@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styles from './Login.module.css'
 import { signInWithPopup } from 'firebase/auth'
 import { auth, googleAuthProvider } from '../../firebase'
@@ -11,6 +11,23 @@ const Login = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    // const dispatch = useDispatch();
+  // const navigate = useNavigate();
+
+
+  useEffect(() =>{
+    let userDetails = localStorage.getItem("user")
+
+    if(userDetails){
+     userDetails = JSON.parse(userDetails);
+      dispatch(addUser(userDetails));
+      navigate("/home")
+       
+    }else{
+      navigate("/");
+    }
+  },[]);
+
     const handleLogin = async() =>{
         try {
             const res = await signInWithPopup(auth,googleAuthProvider);
@@ -21,21 +38,9 @@ const Login = () => {
                 photoURL : res.user.photoURL,
                 uid : res.user.uid
             }
-            
-
-           console.log(user);
-
-           if(localStorage.getItem("user") == null){
+            console.log(user);
             localStorage.setItem("user" , JSON.stringify(user))
             dispatch(addUser(user));
-            navigate("/home")
-           }else{
-              let useData = JSON.parse(localStorage.getItem("user"));
-              dispatch(addUser(useData));
-              navigate("/home");
-           }
-          
-           dispatch(addUser(user));
            
            navigate("/home")
             

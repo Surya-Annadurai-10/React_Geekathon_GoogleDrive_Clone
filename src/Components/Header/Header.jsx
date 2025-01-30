@@ -8,10 +8,14 @@ import { SiGooglegemini } from "react-icons/si";
 import { IoApps } from "react-icons/io5";
 import { MdClear } from "react-icons/md";
 import { useSelector } from 'react-redux';
+import Notification from '../Notification/Notification';
+import Uploading from '../Uploading/Uploading';
 
 const Header = () => {
    const userData = useSelector(state => state.user.userData);
- console.log(userData);
+   const showNotification = useSelector(state => state.user.showNotification);
+   const showUploading = useSelector(state => state.user.showUploading);
+ console.log(userData.photoURL);
  
   return (
   <>
@@ -38,7 +42,16 @@ const Header = () => {
        </div>
        </div>
    </header>
+   
   
+      {
+        showNotification ? <Notification /> : null
+      }
+
+      {
+          showUploading ? <Uploading /> : null
+      }
+   
   </>
   )
 }

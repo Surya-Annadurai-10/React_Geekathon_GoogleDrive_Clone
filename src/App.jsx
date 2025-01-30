@@ -1,6 +1,6 @@
 
 import './App.css'
-import {createBrowserRouter, RouterProvider} from "react-router-dom"
+import {createBrowserRouter, RouterProvider, useNavigate} from "react-router-dom"
 import Layout from './Containers/Layout/Layout'
 import Home from './Components/Home/Home'
 import MyDrive from './Components/MyDrive/MyDrive'
@@ -12,10 +12,13 @@ import Spam from './Components/Spam/Spam'
 import Bin from './Components/Bin/Bin'
 import Storage from './Components/Storage/Storage'
 import Login from './Containers/Login/Login'
-import { Provider } from 'react-redux'
+import { Provider, useDispatch } from 'react-redux'
 import { store } from './store'
+import { useEffect } from 'react'
 
 function App() {
+
+  
  
   const router = createBrowserRouter([
     {
