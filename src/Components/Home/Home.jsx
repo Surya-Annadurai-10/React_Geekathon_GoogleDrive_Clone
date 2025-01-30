@@ -10,10 +10,12 @@ import {  spreadData } from '../../slices/userSlice'
  import { TbLayoutGrid } from "react-icons/tb";
  import { FaChevronDown } from "react-icons/fa";
 import Cards from '../Cards/Cards'
+import BoxLayout from '../BoxLayout/BoxLayout'
 
 const Home = () => {
   const [baseData , setBaseData] = useState(null);
   const [loading , setLoading] = useState(true);
+  const [boxLayout , setBoxLayout] = useState(true);
 
   const stateData = useSelector(state => state.user.files);
   const dispatch = useDispatch();
@@ -39,7 +41,6 @@ const Home = () => {
   useEffect(() =>{
 
    if(baseData) {
-    // console.log("baseData" , baseData)
     dispatch(spreadData(baseData));
     setLoading(false);
    };
@@ -64,36 +65,58 @@ const Home = () => {
           <p>Suggested Files</p>
           </div>
            <div className={styles.layoutCon}>
-                        <div className={styles.layBox}>
-                          <IoMdCheckmark style={{ fontSize: "1.4rem", color: "green" }} />
+                        <div onClick={() =>setBoxLayout(false)} style={{backgroundColor: boxLayout ? "white" : "#C2E7FF"}} className={styles.layBox}>
+                          {
+                          
+                          
+                         boxLayout ? null : <IoMdCheckmark style={{ fontSize: "1.4rem", color: "green" }} />
+
+                          }
                           <MdOutlineMenu style={{ fontSize: "1.4rem" }} />
                         </div>
-                        <div className={styles.layBox}>
-                          <IoMdCheckmark style={{ fontSize: "1.4rem", color: "green" }} />
-                          <TbLayoutGrid style={{ fontSize: "1.3rem" }} />
+                        <div onClick={() =>setBoxLayout(true)} style={{backgroundColor: boxLayout ? "#C2E7FF" : "white"}} className={styles.layBox}>
+                          {/* <IoMdCheckmark  /> */}
+                           {
+                          
+                          boxLayout ? <IoMdCheckmark style={{ fontSize: "1.4rem", color: "green" }} /> : null
+                           }
+
+                             <TbLayoutGrid style={{ fontSize: "1.3rem" }}/>
                         </div>
                       </div>
          </div>
+         {
+          boxLayout ?<div className={styles.BoxLayoutCon}>
+            {/* <BoxLayout /> */}
+            {
+                stateData.map((ele) =>{
+                  return <BoxLayout key={ele.id} {...ele} />
+                  
+                })
+              }
+          </div> :  <div className={styles.tablecon}>
           <div className={styles.table}>
-            <table>
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Reason suggested</th>
-                  <th>Owner</th>
-                  <th>Location</th>
-                </tr>
-              </thead>
-              <tbody>
-                {
-                  stateData.map((ele) =>{
-                    return <Cards key={ele.id} {...ele} />
-                    
-                  })
-                }
-              </tbody>
-            </table>
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Reason suggested</th>
+                <th>Owner</th>
+                <th>Location</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                stateData.map((ele) =>{
+                  return <Cards key={ele.id} {...ele} />
+                  
+                })
+              }
+            </tbody>
+          </table>
+        </div>
           </div>
+         }
         </>
        }
 

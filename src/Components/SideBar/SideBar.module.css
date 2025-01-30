@@ -3,6 +3,8 @@
     height: 100%;
     background-color: #F8FAFD;
     padding:0.5rem 1rem;
+    position: sticky;
+    top: 0;
 }
 
 .new{

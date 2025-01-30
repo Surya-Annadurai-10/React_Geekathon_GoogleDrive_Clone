@@ -8,7 +8,8 @@ const initState = {
      uid : ""
   },
   files : [],
-  
+  showNotification : false,
+  showUploading : false
 }
 
 const userSlice = createSlice({
@@ -24,12 +25,17 @@ const userSlice = createSlice({
         },
         spreadData(state , action){
            state.files = [...action.payload]
+        },
+        setShowNotification(state , action){
+          state.showNotification = action.payload;
+        },
+        setShowUploading(state , action){
+            state.showUploading = action.payload;
         }
-
 
     }
 })
 console.log(initState);
 
 export const userReducers = userSlice.reducer;
-export const {addUser,addInFiles,spreadData} = userSlice.actions;
+export const {addUser,addInFiles,spreadData,setShowNotification,setShowUploading} = userSlice.actions;

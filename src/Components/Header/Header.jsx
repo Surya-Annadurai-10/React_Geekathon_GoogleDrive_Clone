@@ -15,7 +15,7 @@ const Header = () => {
    const userData = useSelector(state => state.user.userData);
    const showNotification = useSelector(state => state.user.showNotification);
    const showUploading = useSelector(state => state.user.showUploading);
- console.log(userData.photoURL);
+//  console.log(userData.photoURL);
  
   return (
   <>

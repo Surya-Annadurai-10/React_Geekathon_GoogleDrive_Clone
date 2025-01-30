@@ -2,19 +2,24 @@ import React, { useEffect, useRef, useState } from "react";
 import styles from "./Notification.module.css";
 import { MdNotificationsActive } from "react-icons/md";
 import { motion } from "framer-motion";
-// import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setShowNotification } from "../../slices/userSlice";
 // import { setShowNotification } from "../../slices/userSlice";
 
 const Notification = (props) => {
-    const [animate , setAnimate] = useState(-120);
+    const [animate , setAnimate] = useState(-220);
     const innerRef = useRef(null);
-    // const dispatch = useDispatch();
-    // const stateData = useSelector(state => state.user.showNotification)
-   console.log(stateData);
+    const dispatch = useDispatch();
+
    setTimeout(() =>{
        setAnimate(10);
-       props.setShowNotification(false);
-   },8000)
+       dispatch(setShowNotification(false));
+   },6000)
+
+   useEffect(() =>{
+    innerRef.current.style.width = "100%"
+
+   },[animate])
 
    useEffect(() =>{
       innerRef.current.style.width = "0%"

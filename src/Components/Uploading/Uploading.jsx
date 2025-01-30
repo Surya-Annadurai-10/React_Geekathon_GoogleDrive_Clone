@@ -1,23 +1,30 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './Uploading.module.css'
 import { motion } from 'framer-motion'
+import progress from "../../assets/progress.gif"
 
 const Uploading = () => {
     const [animate , setAnimate] = useState(-220);
+
+    useEffect(() =>{
+       setTimeout(() =>{
+          setAnimate(10);
+       },8000)
+    },[])
     
   return (
     <>
-     <div className={styles.uploadingDiv}>
-     <motion.div animate={{x :animate }} className={styles.NotificationCon}>
+
+     <motion.div animate={{ x:animate }} className={styles.NotificationCon}>
         <div className={styles.para}>
-          <img src="" alt="" />
-          <p>Uploading...</p>
+          <p>Uploading!...</p>
+          <img className={styles.progressBar} src={progress} alt="" />
         </div>
-        <div className={styles.outer}>
+        {/* <div className={styles.outer}>
           <div className={styles.inner}></div>
-        </div>
+        </div> */}
       </motion.div>
-     </div>
+   
     </>
   )
 }

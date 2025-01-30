@@ -3,9 +3,9 @@ import styles from './AddNewPopUp.module.css'
 import { storage } from '../../firebase';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import {v4} from 'uuid'
-import { useDispatch } from 'react-redux';
-import { addInFiles } from '../../slices/userSlice';
-import { FaCaretRight } from "react-icons/fa";
+import { useDispatch, useSelector } from 'react-redux';
+import { addInFiles, setShowNotification, setShowUploading  } from '../../slices/userSlice';
+import { FaCaretRight } from "react-icons/fa"
 import { MdOutlineCreateNewFolder } from "react-icons/md";
 import { TbFileUpload } from "react-icons/tb";
 import { MdDriveFolderUpload } from "react-icons/md";
@@ -19,10 +19,10 @@ const fileDataRef = collection(firestore , "files");
 
 const AddNewPopUp = (props) => {
     const dispatch = useDispatch();
-    const[showNotification , setShowNotification] = useState(false);
-  
+   const showNotification = useSelector(state => state.showNotification)
+  //  const showUploading = useSelector(state => state.showUploading)
     const [imageUpload , setImageUpload] = useState(null);
-  // const [fileDoc , setFileDoc] = useState("");
+
 
  const handleFileSubmit = async() =>{
     try {
@@ -31,14 +31,10 @@ const AddNewPopUp = (props) => {
     console.log(file);
     setImageUpload(file);
     console.log("Image Uploaded in state");
-    
+    dispatch(setShowUploading(true));
     } catch (error) {
       console.log("Error fetching data from ur system :" , error)
     }
-
-
-
-    //  dispatch(addInFiles(reduxObj));
     
  }
 
@@ -68,9 +64,11 @@ const AddNewPopUp = (props) => {
            console.log(reduxObj);
            dispatch(addInFiles(reduxObj));
            await addDoc(fileDataRef , reduxObj);
-           alert("fileData added in firestore");
+          //  alert("fileData added in firestore");
             props.setShowNewAdd(false)
-            setShowNotification(true);
+            // setShowNotification(true);
+            dispatch(setShowUploading(false));
+            dispatch(setShowNotification(true));
       } catch (error) {
         console.log("Error while uploading the file :" , error)
       }
@@ -87,10 +85,6 @@ const AddNewPopUp = (props) => {
  const handleFolderSubmit = async () =>{
    try{
      const handleFolder = await window.showDirectoryPicker();
-  
-    // console.log(handleFolder);
-     
-    // await if(handleFolder.kind == "")
 
      for await (const value of handleFolder.values()){
       if(value.kind == "file"){
@@ -109,32 +103,7 @@ const AddNewPopUp = (props) => {
   props.setShowNewAdd(true)
   e.stopPropagation();
  }
-    // const onUpload = (e) =>{
-    //   setImageUpload(e.target.files[0]);
-        
-    // }
-
-    // const handleSubmit = async(e) =>{
-    // e.preventDefault();
-    // console.log("imageUpload:" , imageUpload);
-
-    // const imageRef = ref(storage , `files/${imageUpload.name + v4()}`);
-    // const res = await uploadBytes(imageRef , imageUpload)
-    // const url = await getDownloadURL(res.ref)
-    //  const reduxObj = {
-    //   name : imageUpload.name,
-    //   size: imageUpload.size,
-    //   type : imageUpload.type,
-    //   lastModifiedDate : imageUpload.lastModifiedDate,
-    //   lastModified : imageUpload.lastModified,
-    //   imageURL : url
-    //  }
-
-    //  console.log(reduxObj);
-
-    //  dispatch(addInFiles(reduxObj));
-     
-    // }
+    
   return (
     <>
 
@@ -213,9 +182,7 @@ const AddNewPopUp = (props) => {
         </div>
        </div>
 
-       {
-         showNotification ? <Notification setShowNotification = {setShowNotification} /> : null
-       }
+       
        {/* <div className={styles.container}>
            <form onSubmit={handleSubmit}>
             <h2>Select the file you want to upload</h2>
