@@ -61,15 +61,24 @@
     align-items: center;
     justify-content: space-between;
     width: 95%;
+    padding: 0.5rem 0;
+    margin: auto;
+}
+
+.suggested:nth-child(2){
+    width: 95%;
+    /* color: blue; */
     margin: auto;
 }
 
 .suggested{
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 0.5rem;
-    width: 150px;
+    width: 100%;
+    text-align: left;
+    /* background-color: red; */
     height: 30px;
     border-radius: 15px;
     color: #1F1F1F;
@@ -86,7 +95,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid grey;
+    border: 1px solid #ababab;
 }
 
 .layBox{
@@ -99,7 +108,7 @@
 }
 
 .layoutCon .layBox:first-child{
-    border-right: 1px solid grey;
+    /* border-right: 1px solid grey; */
    border-bottom-left-radius: 20px;
    border-top-left-radius: 20px;
    background-color: #C2E7FF;
@@ -107,7 +116,7 @@
 }
 
 .layoutCon .layBox:nth-child(2){
-    border-right: 1px solid grey;
+    border-left: 1px solid #ababab;
    border-bottom-right-radius: 20px;
    border-top-right-radius: 20px;
 
@@ -117,7 +126,7 @@
 
 .table table{
     width: 100%;
-  
+    /* background-color: red; */
     margin:auto;
     color: #1F1F1F;
     /* background-color: rgb(207, 153, 153); */
@@ -126,7 +135,7 @@
 .tablecon{
     width: 98%;
     height: 78vh;
-
+    /* background-color: blue; */
     margin: auto;
     overflow-y: scroll;
 }
@@ -220,3 +229,25 @@ text-align: left;
     background: #999; 
   }
   
+
+  .optionsCon{
+    width: 95%;
+    height: 35px;
+    background-color: #F0F4F9;
+    border-radius: 15px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start ;
+    gap: 1.5rem;
+    padding-inline: 1rem;
+  }
+
+  .optionsCon *{
+    color: #1f1f1f;
+  }
+
+  .optionsCon p{
+    font-size: 1.2rem;
+    color: #1f1f1f;
+  }

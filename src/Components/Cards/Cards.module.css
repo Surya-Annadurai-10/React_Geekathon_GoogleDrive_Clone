@@ -56,3 +56,16 @@
     text-decoration: underline;
     cursor: pointer;
 }
+
+.location{
+    display:flex ;
+    align-items: center;
+    justify-content:center;
+    gap: 0.5rem;
+}
+
+.locationOuter{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

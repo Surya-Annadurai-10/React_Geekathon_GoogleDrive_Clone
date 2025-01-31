@@ -11,11 +11,19 @@ import {  spreadData } from '../../slices/userSlice'
  import { FaChevronDown } from "react-icons/fa";
 import Cards from '../Cards/Cards'
 import BoxLayout from '../BoxLayout/BoxLayout'
+import { FaChevronUp } from "react-icons/fa";
+import { RxCross2 } from "react-icons/rx";
+import { RiUserSharedLine  } from "react-icons/ri";
+import { LuDownload } from "react-icons/lu";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { IoMdLink } from "react-icons/io";
+import { BsThreeDotsVertical } from "react-icons/bs";
 
 const Home = () => {
   const [baseData , setBaseData] = useState(null);
   const [loading , setLoading] = useState(true);
-  const [boxLayout , setBoxLayout] = useState(true);
+  const [boxLayout , setBoxLayout] = useState(false);
+  const [showOptions , setShowOptions] = useState (false);
 
   const stateData = useSelector(state => state.user.files);
   const dispatch = useDispatch();
@@ -59,10 +67,30 @@ const Home = () => {
              <p>Fetching data...</p>
              </div>
         </div> : <>
+      {
+        showOptions ?<div className={styles.optionsCon}>
+        <RxCross2 onClick={() =>setShowOptions(false)}  style={{ fontSize: "1.4rem" ,color:"1f1f1f"}} />
+        <p>1 selected</p>
+        <RiUserSharedLine   style={{ fontSize: "1.4rem" ,color:"1f1f1f"}}/>
+        <LuDownload  style={{ fontSize: "1.4rem" ,color:"1f1f1f"}}/>
+        <RiDeleteBin6Line  style={{ fontSize: "1.4rem" ,color:"1f1f1f"}}/>
+        <IoMdLink style={{ fontSize: "1.4rem" ,color:"1f1f1f"}} />
+        <BsThreeDotsVertical  style={{ fontSize: "1.4rem" ,color:"1f1f1f"}}/>
+        </div>
+        
+        :  <div className={styles["suggested"]}>
+        <FaChevronUp   />
+       
+           <p>Suggested Folders</p>
+        
+          </div>
+      }
          <div className={styles.suggestedCon}>
           <div className={styles.suggested}>
           <FaChevronDown />
-          <p>Suggested Files</p>
+       
+           <p>Suggested Files</p>
+        
           </div>
            <div className={styles.layoutCon}>
                         <div onClick={() =>setBoxLayout(false)} style={{backgroundColor: boxLayout ? "white" : "#C2E7FF"}} className={styles.layBox}>
@@ -78,7 +106,8 @@ const Home = () => {
                           {/* <IoMdCheckmark  /> */}
                            {
                           
-                          boxLayout ? <IoMdCheckmark style={{ fontSize: "1.4rem", color: "green" }} /> : null
+                          boxLayout ? <IoMdCheckmark style={{ fontSize: "1.4rem", color: "green" }} 
+                          /> : null
                            }
 
                              <TbLayoutGrid style={{ fontSize: "1.3rem" }}/>
@@ -108,7 +137,7 @@ const Home = () => {
             <tbody>
               {
                 stateData.map((ele) =>{
-                  return <Cards key={ele.id} {...ele} />
+                  return <Cards setShowOptions={setShowOptions} key={ele.id} {...ele} />
                   
                 })
               }

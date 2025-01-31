@@ -5,7 +5,7 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { useSelector } from 'react-redux';
 
 const BoxLayout = (props) => {
-    console.log(props);
+    // console.log(props);
     
 const stateData = useSelector(state => state.user.userData)
 

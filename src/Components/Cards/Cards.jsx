@@ -2,16 +2,18 @@ import React from 'react'
 import styles from './Cards.module.css'
 import { IoMdImage } from "react-icons/io";
 import { useSelector } from 'react-redux';
+import { RiHardDrive3Line } from "react-icons/ri";
+import { BsThreeDotsVertical } from "react-icons/bs";
 
 const Cards = (props) => {
-   
+   console.log(props)
     const stateData = useSelector(state=> state.user.userData)
     // console.log(stateData);
     
 
   return (
     <>
-    <tr className={styles.cardCon}>
+    <tr onClick={() => props.setShowOptions(true)}  className={styles.cardCon}>
         <td>
             <div className={styles.nameData}>
             <IoMdImage style={{color:"#EA4335",fontSize : "1.5rem"}} />
@@ -25,7 +27,15 @@ const Cards = (props) => {
                    </div>
             <p>me</p>
         </td>
-        <td>Mydrive</td>
+        <td >
+       <div className={styles.locationOuter}>
+       <div  className={styles.location}>
+       <RiHardDrive3Line style={{fontSize:"1.3rem"}} />
+       <p>MyDrive</p>
+       </div>
+       <BsThreeDotsVertical  style={{fontSize:"1.3rem"}} />
+       </div>
+        </td>
     </tr>
     </>
   )
