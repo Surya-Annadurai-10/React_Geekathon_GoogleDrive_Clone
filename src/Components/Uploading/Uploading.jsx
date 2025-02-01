@@ -9,7 +9,7 @@ const Uploading = () => {
     useEffect(() =>{
        setTimeout(() =>{
           setAnimate(10);
-       },8000)
+       },80000)
     },[])
     
   return (

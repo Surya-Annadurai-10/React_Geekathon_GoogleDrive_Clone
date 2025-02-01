@@ -28,7 +28,7 @@ const AddNewPopUp = (props) => {
     try {
       const [files] = await window.showOpenFilePicker();
     const file = await files.getFile();
-    console.log(file);
+    console.log("file :" , file);
     setImageUpload(file);
     console.log("Image Uploaded in state");
     dispatch(setShowUploading(true));
@@ -57,14 +57,14 @@ const AddNewPopUp = (props) => {
             type : imageUpload.type,
             lastModifiedDate : imageUpload.lastModifiedDate + "",
             lastModified : imageUpload.lastModified,
-            imageURL : url,
-            id : v4()
+            imageURL : url
+            // id : v4()
            }
+          //  alert("fileData added in firestore");
       
            console.log(reduxObj);
            dispatch(addInFiles(reduxObj));
            await addDoc(fileDataRef , reduxObj);
-          //  alert("fileData added in firestore");
             props.setShowNewAdd(false)
             // setShowNotification(true);
             dispatch(setShowUploading(false));

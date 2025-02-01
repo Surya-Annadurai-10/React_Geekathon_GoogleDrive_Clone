@@ -11,10 +11,14 @@ const Notification = (props) => {
     const innerRef = useRef(null);
     const dispatch = useDispatch();
 
-   setTimeout(() =>{
-       setAnimate(10);
-       dispatch(setShowNotification(false));
-   },6000)
+  useEffect(() =>{
+   let time =  setTimeout(() =>{
+      setAnimate(10);
+      dispatch(setShowNotification(false));
+  },6000)
+
+  return () => clearTimeout(time);
+  },[])
 
    useEffect(() =>{
     innerRef.current.style.width = "100%"
