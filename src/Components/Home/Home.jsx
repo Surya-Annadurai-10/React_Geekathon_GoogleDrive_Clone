@@ -27,6 +27,7 @@ import LayoutCon from '../LayoutCon/LayoutCon'
 const Home = () => {
   const [baseData , setBaseData] = useState(null);
   const [BinBaseData , setBinBaseData] = useState(null);
+  const [starredBaseData , setStarredBinBaseData] = useState(null);
   const [loading , setLoading] = useState(true);
   const [boxLayout , setBoxLayout] = useState(false);
   const [showOptions , setShowOptions] = useState (false);
@@ -37,12 +38,14 @@ const Home = () => {
   const dispatch = useDispatch();
   const filesData = collection(firestore , "files")
   const binData = collection(firestore , "bin")
+  const starredData = collection(firestore , "starred")
   useEffect(() =>{
     
     const fetchData = async ()=>{
       try {
         const fetchedfiles = await getDocs(filesData)
         const filesFromBin = await getDocs(binData)
+        const filesFromStarred = await getDocs(starredData)
     // console.log(fetchedfiles.docs);
     const mappedData = fetchedfiles.docs.map((val) =>{
       console.log("val.id :" , val.id);
@@ -55,8 +58,15 @@ const Home = () => {
       
       return { ...val.data(),id : val.id }
     });
+
+    const mappedDataStarred = filesFromStarred.docs.map((val) =>{
+      console.log("val.id :" , val.id);
+      
+      return { ...val.data(),id : val.id }
+    });
     setBaseData(mappedData)
     setBinBaseData(mappedDataBin)
+    setStarredBinBaseData(mappedDataStarred)
       } catch (error) {
         console.log("Error while fetching data:" , error)
       }
@@ -84,14 +94,6 @@ const Home = () => {
       alert ("File moved to bin successfully");
       await  deleteDoc(deleteDocRef);
      alert("File deleted in files database successfully");
-     
-    //  await uploadBytes(movedToBinDataRef , downloadedContent.name)
-    //  alert("File upload  in bin storage succesfully");
-     
-  //  setTimeout(async() =>{
-  //      await deleteObject(deleteInFilesDataRef)
-  //    alert("File deleted in files storage succesfully");
-  //  },2147483646)
 
       const deletedItem = stateData.find((ele) => ele.id == downloadedContent.id)
       const deletedItemId = stateData.findIndex((ele) => ele.id == downloadedContent.id)
@@ -177,7 +179,8 @@ const Home = () => {
           <LayoutCon setBoxLayout={setBoxLayout} boxLayout={boxLayout} />
          </div>
          {
-          boxLayout ?<div className={styles.BoxLayoutCon}>
+          boxLayout ?
+          <div className={styles.BoxLayoutCon}>
             {/* <BoxLayout /> */}
             {
                 stateData.map((ele) =>{
@@ -185,7 +188,8 @@ const Home = () => {
                   
                 })
               }
-          </div> :  <div className={styles.tablecon}>
+          </div> :  
+          <div className={styles.tablecon}>
           <div className={styles.table}>
           <table>
             <thead>

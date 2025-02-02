@@ -10,7 +10,8 @@ const initState = {
   files : [],
   showNotification : false,
   showUploading : false,
-  bin : []
+  bin : [],
+  starred : []
 }
 
 const userSlice = createSlice({
@@ -44,6 +45,12 @@ const userSlice = createSlice({
         },
         removeItemFromBin(state , action){
            state.bin.splice(action.payload,1);
+        },
+        starredData(state, action){
+         state.starred.unshift(action.payload);
+        },
+        updateIsFavInFiles(state,action){
+           state.files.splice(action.payload.index , 1 , action.payload.object);
         }
 
     }
@@ -51,4 +58,4 @@ const userSlice = createSlice({
 console.log(initState.bin);
 
 export const userReducers = userSlice.reducer;
-export const {addUser,removeItemFromBin,spreadDataBin,setDeletedInBin,addInFiles,spreadData,setShowNotification,setShowUploading} = userSlice.actions;
+export const {addUser,updateIsFavInFiles,starredData,removeItemFromBin,spreadDataBin,setDeletedInBin,addInFiles,spreadData,setShowNotification,setShowUploading} = userSlice.actions;

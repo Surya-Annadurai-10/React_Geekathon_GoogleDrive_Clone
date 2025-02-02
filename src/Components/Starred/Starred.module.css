@@ -268,3 +268,123 @@
     text-decoration: underline;
     text-underline-offset: 3px;
 }
+
+.starredContainer{
+  width: 95%;
+  margin: auto;
+}
+
+.table table{
+  width: 100%;
+  /* height: 100%; */
+  /* background-color: red; */
+  margin:auto;
+  color: #1F1F1F;
+  /* background-color: rgb(207, 153, 153); */
+}
+
+.tablecon{
+  width: 98%;
+  height: 78vh;
+  /* background-color: blue; */
+  margin: auto;
+  overflow-y: scroll;
+}
+
+.table table th,tr,td{
+ 
+  color: #1F1F1F;
+  /* color: #ae0000; */
+  /* background-color: rgb(207, 153, 153); */
+}
+
+.table table th,td{
+  border-collapse: collapse;
+ border-bottom: 1px solid rgb(217, 217, 217);
+  color: #1F1F1F;
+  /* color: #ae0000; */
+  /* background-color: rgb(207, 153, 153); */
+}
+
+
+.table thead{
+  width: 100%;
+}
+
+
+.table table th{
+  padding: 1rem;
+  
+}
+
+.table table thead tr{
+  width: 100%;
+  /* background-color: blue; */
+}
+
+.table th:first-child{
+width: 30%;
+text-align: left;
+}
+.table th:nth-child(2){
+  width: 20%;
+text-align: left;
+
+}
+.table th:nth-child(3){
+  width: 16%;
+text-align: left;
+
+
+   
+}
+.table th:nth-child(4){
+  width:34%;
+text-align: left;
+
+ 
+
+}
+
+.BoxLayoutCon{
+  width: 98%;
+  height: 76vh;
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+  overflow-y: scroll;
+  /* background-color: red; */
+}
+
+
+.optionsCon{
+  width: 95%;
+  height: 35px;
+  background-color: #F0F4F9;
+  border-radius: 15px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start ;
+  gap: 1.5rem;
+  padding-inline: 1rem;
+}
+
+.optionsCon *{
+  color: #1f1f1f;
+}
+
+.optionsCon p{
+  font-size: 1.2rem;
+  color: #1f1f1f;
+}
+
+.fileSizeCon{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

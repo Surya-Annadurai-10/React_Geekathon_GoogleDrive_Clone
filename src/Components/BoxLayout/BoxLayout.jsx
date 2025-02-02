@@ -36,34 +36,54 @@ const handleShowOptions = (e) =>{
 }
 
 
-const findIcons = () =>{
-  // console.log("props.type =>" , props.type);
+  const findIcons = () =>{
+      // console.log("props.type =>" , props.type);
+    
+    let imageStr = props.type.includes("image")
+    let videoStr = props.type.includes("video")
+    let pdfStr = props.type.includes("pdf")
+    
+    if(imageStr){
+      // console.log(true);
+      return  <IoMdImage style={{color : "#EA4335", fontSize: "1.5rem"}} />
+      
+    }
+    
+    if(videoStr){
+      // console.log(false);
+      return <IoMdVideocam  style={{color : "#EA4335", fontSize: "1.5rem"}}/>
+    }
 
-let imageStr = props.type.includes("image")
+    if(pdfStr){
+      // console.log(false);
+      return   <img width={"25"} height={"25"}
+      src="https://www.freepngimg.com/thumb/google/66255-google-icons-docs-drive-computer-suite.png"
+      alt=""
+    />
+    }
 
-if(imageStr){
-  console.log(true);
-  return  <IoMdImage style={{color : "#EA4335", fontSize: "1.5rem"}} />
-  
-}else{
-  console.log(false);
-  return <IoMdVideocam  style={{color : "#EA4335", fontSize: "1.5rem"}}/>
-}
-  
-}
+  }
 
 const findImg = () =>{
   // console.log("props.type =>" , props.type);
 
-let imageStr = props.type.includes("image")
+  let imageStr = props.type.includes("image")
+    let videoStr = props.type.includes("video")
+    let pdfStr = props.type.includes("pdf")
 
 if(imageStr){
   // console.log(true);
   return  props.imageURL
   
-}else{
+}
+
+if(videoStr){
   // console.log(false);
   return "https://purepng.com/public/uploads/large/purepng.com-video-icon-galaxy-s6symbolsiconssamsungapp-iconsgalaxy-s6-icons-721522597480axbjz.png"
+}
+
+if(pdfStr){
+    return "https://www.freepngimg.com/thumb/google/66255-google-icons-docs-drive-computer-suite.png"
 }
   
 }

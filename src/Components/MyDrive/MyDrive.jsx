@@ -13,15 +13,38 @@ import { IoArchiveSharp } from "react-icons/io5";
 import { FaFileAudio, FaLinesLeaning } from "react-icons/fa6";
 import { RiShieldFlashFill } from "react-icons/ri";
 import { MdSwitchAccessShortcut } from "react-icons/md";
+import { useSelector } from "react-redux";
+import Cards from "../Cards/Cards";
+import LayoutCon from "../LayoutCon/LayoutCon";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import Layout from "../../Containers/Layout/Layout";
+import BoxLayout from "../BoxLayout/BoxLayout";
+import { RxCross2 } from "react-icons/rx";
+import { RiUserSharedLine  } from "react-icons/ri";
+import { LuDownload } from "react-icons/lu";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { IoMdLink } from "react-icons/io";
+import MyDriveCard from "../MyDriveCard/MyDriveCard";
+// import { BsThreeDotsVertical } from "react-icons/bs";
 
 const MyDrive = () => {
   const [showDropDown, setShowDropDown] = useState(false);
   const [showTypeDrop , setShowTypeDrop] = useState(false);
+  const stateData = useSelector(state => state.user.files);
+    const [showOptions , setShowOptions] = useState (false);
+    const [downloadedContent , setDownloadedContent] = useState({});
+      const [boxLayout , setBoxLayout] = useState(false);
+      
+    
+
   
   return (
-    <>
+   <>
+<div className={styles.MyDriveContainer}>
+    <div >
       <div className={styles.mydriveCon}>
-        <div
+       <div className={styles.myDriveHeader}>
+       <div
           style={{
             backgroundColor: showDropDown ? "rgb(239, 239, 239)" : null,
           }}
@@ -35,10 +58,25 @@ const MyDrive = () => {
         >
           <h2>My Drive</h2>
           <FaCaretDown />
-
+         
          
         </div>
-        <div className={styles.filter_con}>
+        <LayoutCon setBoxLayout={setBoxLayout} boxLayout={boxLayout} />
+       </div>
+        {
+
+          showOptions ?
+          <div className={styles.optionsCon}>
+                  <RxCross2 onClick={() =>setShowOptions(false)}  style={{ fontSize: "1.4rem" ,color:"1f1f1f"}} />
+                  <p>1 selected</p>
+                  <RiUserSharedLine   style={{ fontSize: "1.4rem" ,color:"1f1f1f"}}/>
+                <a href={"https://tse1.mm.bing.net/th?id=OIP.4XB8NF1awQyApnQDDmBmQwHaEo&pid=Api&P=0&h=180"} download>  <LuDownload   style={{ fontSize: "1.4rem" ,color:"1f1f1f"}}/></a>
+                  <RiDeleteBin6Line onClick={() => handleDelete(downloadedContent.id)}  style={{ fontSize: "1.4rem" ,color:"1f1f1f"}}/>
+                  <IoMdLink style={{ fontSize: "1.4rem" ,color:"1f1f1f"}} />
+                  <BsThreeDotsVertical  style={{ fontSize: "1.4rem" ,color:"1f1f1f"}}/>
+          </div>
+          :
+          <div className={styles.filter_con}>
           <div onClick={() =>{
              setShowTypeDrop(!showTypeDrop);
              if(showTypeDrop){
@@ -65,6 +103,47 @@ const MyDrive = () => {
             <FaCaretDown />
           </div>
         </div>
+        }
+        {
+          boxLayout ?
+          <div className={styles.BoxLayoutCon}>
+          {/* <BoxLayout /> */}
+          {
+              stateData.map((ele) =>{
+                return <BoxLayout  key={ele.id} showOptions={showOptions} setDownloadedContent={setDownloadedContent} setShowOptions={setShowOptions}  {...ele} obj={ele}/>
+                
+              })
+            }
+        </div>
+          : 
+          <div className={styles.tablecon}>
+          <div className={styles.table}>
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Owner</th>
+                <th>Last modified</th>
+                <th>
+                  <div className={styles.fileSizeCon}>
+                  <p>File size</p>
+                  <BsThreeDotsVertical fontSize={"1rem"} />
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                stateData.map((ele , index) =>{
+                  return <MyDriveCard  setDownloadedContent={setDownloadedContent} setShowOptions={setShowOptions} key={index} obj= {ele} {...ele} />
+                  
+                })
+              }
+            </tbody>
+          </table>
+        </div>
+          </div> 
+        }
       </div>
       {
           showDropDown ?
@@ -140,7 +219,8 @@ const MyDrive = () => {
                 <FaCaretRight />
               </div>
             </div>
-        : null}
+        : null
+      }
 
 {
               showTypeDrop ? 
@@ -262,7 +342,13 @@ const MyDrive = () => {
             </div>
               : null
             }
-    </>
+
+       
+  
+    </div>
+</div>
+   
+   </>
   );
 };
 

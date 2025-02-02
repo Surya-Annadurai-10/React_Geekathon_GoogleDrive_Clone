@@ -177,14 +177,22 @@ text-align: left;
 }
 .table th:nth-child(2){
     width: 20%;
+text-align: left;
+
 }
 .table th:nth-child(3){
     width: 16%;
+text-align: left;
+
 
      
 }
 .table th:nth-child(4){
     width: 16%;
+text-align: left;
+
+   
+
 }
 
 .nameData a {

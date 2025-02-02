@@ -4,6 +4,8 @@ import { IoMdImage } from "react-icons/io";
 import { useSelector } from 'react-redux';
 import { RiHardDrive3Line } from "react-icons/ri";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import { IoMdVideocam } from "react-icons/io";
+
 
 const Cards = (props) => {
    console.log("props=>" , props.obj)
@@ -18,12 +20,42 @@ const Cards = (props) => {
       // props.setDeleteDataId(props.id);
     }
 
+    const findIcons = () =>{
+      // console.log("props.type =>" , props.type);
+    
+    let imageStr = props.type.includes("image")
+    let videoStr = props.type.includes("video")
+    let pdfStr = props.type.includes("pdf")
+    
+    if(imageStr){
+      console.log(true);
+      return  <IoMdImage style={{color : "#EA4335", fontSize: "1.5rem"}} />
+      
+    }
+    
+    if(videoStr){
+      console.log(false);
+      return <IoMdVideocam  style={{color : "#EA4335", fontSize: "1.5rem"}}/>
+    }
+
+    if(pdfStr){
+      console.log(false);
+      return   <img width={"25"} height={"25"}
+      src="https://www.freepngimg.com/thumb/google/66255-google-icons-docs-drive-computer-suite.png"
+      alt=""
+    />
+    }
+      
+    }
+
   return (
     <>
     <tr onClick={handleClick}  className={styles.cardCon}>
         <td>
             <div className={styles.nameData}>
-            <IoMdImage style={{color:"#EA4335",fontSize : "1.5rem"}} />
+            {
+              findIcons() 
+            }
            <a href={props.imageURL} target='_blank'> <p>{props.name}</p></a>
             </div>
         </td>

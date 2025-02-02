@@ -1,12 +1,13 @@
 .cardCon{
     border-bottom: 1px solid grey;
-    text-align: center;
+    /* text-align: left; */
     width: 100%;
     height: 50px;
 }
 
 .cardCon td{
     padding: 1rem;
+    /* background-color: red; */
 }
 
 .nameData{
@@ -21,10 +22,8 @@
     align-items: center;
     gap: 0.5rem;
     padding: 1rem;
-    justify-content: center;
-    /* background-color: yellow; */
-    /* width: 100%;
-    height: 100%; */
+    justify-content: flex-start;
+ 
 }
 
 .reasoned{

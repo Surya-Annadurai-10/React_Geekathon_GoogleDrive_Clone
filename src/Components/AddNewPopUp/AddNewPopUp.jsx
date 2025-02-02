@@ -10,7 +10,7 @@ import { MdOutlineCreateNewFolder } from "react-icons/md";
 import { TbFileUpload } from "react-icons/tb";
 import { MdDriveFolderUpload } from "react-icons/md";
 import JSZip from 'jszip';
-import { collection,addDoc } from 'firebase/firestore';
+import { collection,addDoc, getDocs } from 'firebase/firestore';
 import { firestore } from '../../firebase';
 import Notification from '../Notification/Notification';
 
@@ -22,7 +22,10 @@ const AddNewPopUp = (props) => {
    const showNotification = useSelector(state => state.showNotification)
   //  const showUploading = useSelector(state => state.showUploading)
     const [imageUpload , setImageUpload] = useState(null);
-
+     const filesData = collection(firestore , "files")
+      const binData = collection(firestore , "bin")
+        const [baseData , setBaseData] = useState(null);
+        const [BinBaseData , setBinBaseData] = useState(null);
 
  const handleFileSubmit = async() =>{
     try {
@@ -37,6 +40,27 @@ const AddNewPopUp = (props) => {
     }
     
  }
+
+
+ 
+ 
+   useEffect(() =>{
+ 
+    if(baseData) {
+     dispatch(spreadData(baseData));
+    //  setLoading(false);
+    };
+     
+   },[baseData])
+ 
+   useEffect(() =>{
+ 
+     if(BinBaseData) {
+      dispatch(spreadDataBin(BinBaseData));
+      // setLoading(false);
+     };
+      
+    },[BinBaseData])
 
  useEffect(() =>{
     async function name(params) {
@@ -57,7 +81,8 @@ const AddNewPopUp = (props) => {
             type : imageUpload.type,
             lastModifiedDate : imageUpload.lastModifiedDate + "",
             lastModified : imageUpload.lastModified,
-            imageURL : url
+            imageURL : url,
+            isFav : false
             // id : v4()
            }
           //  alert("fileData added in firestore");
@@ -72,6 +97,32 @@ const AddNewPopUp = (props) => {
       } catch (error) {
         console.log("Error while uploading the file :" , error)
       }
+
+       const fetchData = async ()=>{
+            try {
+              const fetchedfiles = await getDocs(filesData)
+              const filesFromBin = await getDocs(binData)
+              // const filesFromBin = await getDocs(binData)
+          // console.log(fetchedfiles.docs);
+          const mappedData = fetchedfiles.docs.map((val) =>{
+            console.log("val.id :" , val.id);
+            
+            return { ...val.data(),id : val.id }
+          });
+      
+          const mappedDataBin = filesFromBin.docs.map((val) =>{
+            console.log("val.id :" , val.id);
+            
+            return { ...val.data(),id : val.id }
+          });
+          setBaseData(mappedData)
+          setBinBaseData(mappedDataBin)
+            } catch (error) {
+              console.log("Error while fetching data:" , error)
+            }
+          }
+          
+          fetchData();
         
     }
     if(imageUpload){

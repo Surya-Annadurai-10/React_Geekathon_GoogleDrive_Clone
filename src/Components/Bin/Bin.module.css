@@ -317,6 +317,10 @@
   /* background-color: blue; */
 }
 
+.table table th{
+  text-align: left;
+}
+
 .table th:first-child{
 width: 30%;
 text-align: left;
