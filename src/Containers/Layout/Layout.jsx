@@ -7,11 +7,101 @@ import RightSideBar from '../../Components/RightSideBar/RightSideBar'
 import PopupRight from '../../Components/PopupRight/PopupRight'
 import { useDispatch } from 'react-redux'
 import { addUser } from '../../slices/userSlice'
+import { collection, getDocs } from 'firebase/firestore'
+import { firestore } from '../../firebase'
 
 const Layout = () => {
   const [showPopupRight , setShowPopupRight] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+   const [imageUpload , setImageUpload] = useState(null);
+       const filesData = collection(firestore , "files")
+        //  const fileDataRef = collection(firestore , "files");
+        const binData = collection(firestore , "bin")
+        const starredData = collection(firestore , "starred")
+          const [baseData , setBaseData] = useState(null);
+          const [BinBaseData , setBinBaseData] = useState(null);
+            const [starredBaseData , setStarredBinBaseData] = useState(null);
+            const [getData , setGetData] = useState(false);
+  
+
+
+
+  //  useEffect(() =>{
+  //   const fetchData = async ()=>{
+  //     try {
+  //       const fetchedfiles = await getDocs(filesData)
+  //       const filesFromBin = await getDocs(binData)
+  //       const filesFromStarred = await getDocs(starredData)
+  //       const mappedData = fetchedfiles.docs.map((val) =>{
+  //     console.log("val.id :" , val.id);
+      
+  //     return { ...val.data(),id : val.id }
+  //   });
+  
+  //   const mappedDataBin = filesFromBin.docs.map((val) =>{
+  //     console.log("val.id :" , val.id);
+      
+  //     return { ...val.data(),id : val.id }
+  //   });
+  //   const mappedDataStarred = filesFromStarred.docs.map((val) =>{
+  //     console.log("val.id :" , val.id);
+      
+  //     return { ...val.data(),id : val.id }
+  //   });
+  //   setBaseData(mappedData)
+  //   setBinBaseData(mappedDataBin)
+  //   setStarredBinBaseData(mappedDataStarred)
+  //     } catch (error) {
+  //       console.log("Error while fetching data:" , error)
+  //     }
+  //     setGetData(false);
+  // }
+    
+  //   if(getData){
+   
+  //       fetchData();
+      
+  //   }
+  //  },[])
+  
+  
+    
+  //  useEffect(() =>{
+   
+  //   if(starredBaseData) {
+  //    dispatch(spreadDataStarred(starredBaseData));
+  //   //  setLoading(false);
+  //   };
+     
+  //  },[starredBaseData])
+  
+  
+  
+  // useEffect(() =>{
+  
+  //  if(baseData) {
+  //   dispatch(spreadData(baseData));
+   
+  //  };
+    
+  // },[baseData])
+  
+  // useEffect(() =>{
+  
+  //   if(BinBaseData) {
+  //    dispatch(spreadDataBin(BinBaseData));
+     
+  //   };
+     
+  //  },[BinBaseData])
+
+  const [showCalender , setShowCalender] = useState(false);
+  const [showNotes , setShowNotes] = useState(false);
+  const [showTask , setShowTask ] = useState(false);
+  const [showContacts , setShowContacts ] = useState(false);
+
 
 
   useEffect(() =>{
@@ -33,12 +123,12 @@ const Layout = () => {
         <div className={styles.mainCon}>
             <SideBar />
             <Outlet />
-            <RightSideBar showPopupRight={showPopupRight} setShowPopupRight = {setShowPopupRight} />
+            <RightSideBar setShowContacts={setShowContacts} showContacts={showContacts} showCalender={showCalender} showNotes={showNotes}  showTask={showTask} setShowCalender={setShowCalender} setShowNotes={setShowNotes} setShowTask={setShowTask} showPopupRight={showPopupRight} setShowPopupRight = {setShowPopupRight} />
            
         </div>
        </div>
         {
-             showPopupRight ?  <PopupRight showPopupRight={showPopupRight} setShowPopupRight = {setShowPopupRight} /> : null
+             showPopupRight ?  <PopupRight showContacts={showContacts} setShowContacts={setShowContacts} showCalender={showCalender} showNotes={showNotes}  showTask={showTask} setShowCalender={setShowCalender} setShowNotes={setShowNotes} setShowTask={setShowTask} showPopupRight={showPopupRight} setShowPopupRight = {setShowPopupRight} /> : null
             }
     </div>
   )

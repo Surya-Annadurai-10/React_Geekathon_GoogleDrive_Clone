@@ -1,5 +1,5 @@
 import styles from "./Bin.module.css";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { FaCaretDown } from "react-icons/fa";
 import { MdPhotoSizeSelectActual } from "react-icons/md";
@@ -19,10 +19,10 @@ import BoxLayout from "../BoxLayout/BoxLayout";
 import { MdRestore } from "react-icons/md";
 import { MdOutlineDeleteForever } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
-import { addDoc, collection, deleteDoc, doc } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import { firestore, storage } from "../../firebase";
 import { deleteObject, ref } from "firebase/storage";
-import { addInFiles, removeItemFromBin } from "../../slices/userSlice";
+import { addInFiles, removeItemFromBin, spreadData, spreadDataBin, spreadDataStarred } from "../../slices/userSlice";
 import BinCard from "../BinCard/BinCard";
 
 
@@ -36,12 +36,96 @@ const Bin = () => {
   const dispatch = useDispatch();
   const stateBin = useSelector((state) => state.user.bin);
 
-  const handleClick = () => {
-    console.log("stateBin:", stateBin);
-  };
+ 
+  //   const [imageUpload , setImageUpload] = useState(null);
+  //       const filesData = collection(firestore , "files")
+  //        //  const fileDataRef = collection(firestore , "files");
+  //        const binData = collection(firestore , "bin")
+  //        const starredData = collection(firestore , "starred")
+  //          const [baseData , setBaseData] = useState(null);
+  //          const [BinBaseData , setBinBaseData] = useState(null);
+  //            const [starredBaseData , setStarredBinBaseData] = useState(null);
+  //            const [getData , setGetData] = useState(false);
+   
+ 
+  //            console.log("Diving to fetch data outer");
+ 
+ 
+  //   useEffect(() =>{
+  //    const fetchData = async ()=>{
+  //     console.log("Diving to fetch data");
+      
+  //      try {
+  //        const fetchedfiles = await getDocs(filesData)
+  //        const filesFromBin = await getDocs(binData)
+  //        const filesFromStarred = await getDocs(starredData)
+  //        const mappedData = fetchedfiles.docs.map((val) =>{
+  //      console.log("val.id :" , val.id);
+       
+  //      return { ...val.data(),id : val.id }
+  //    });
+   
+  //    const mappedDataBin = filesFromBin.docs.map((val) =>{
+  //      console.log("val.id :" , val.id);
+       
+  //      return { ...val.data(),id : val.id }
+  //    });
+  //    const mappedDataStarred = filesFromStarred.docs.map((val) =>{
+  //      console.log("val.id :" , val.id);
+       
+  //      return { ...val.data(),id : val.id }
+  //    });
+  //    setBaseData(mappedData)
+  //    setBinBaseData(mappedDataBin)
+  //    setStarredBinBaseData(mappedDataStarred)
+  //      } catch (error) {
+  //        console.log("Error while fetching data:" , error)
+  //      }
+  //      setGetData(false);
+  //  }
+     
+     
+    
+  //        fetchData();
+       
+     
+  //   },[])
+   
+   
+     
+  //   useEffect(() =>{
+    
+  //    if(starredBaseData) {
+  //     dispatch(spreadDataStarred(starredBaseData));
+  //    //  setLoading(false);
+  //    };
+      
+  //   },[starredBaseData])
+   
+   
+   
+  //  useEffect(() =>{
+   
+  //   if(baseData) {
+  //    dispatch(spreadData(baseData));
+    
+  //   };
+     
+  //  },[baseData])
+   
+  //  useEffect(() =>{
+   
+  //    if(BinBaseData) {
+  //     dispatch(spreadDataBin(BinBaseData));
+     
+  //    };
+      
+  //   },[BinBaseData])
+ 
+ 
 
   const handleDelete = (id) =>{
-    //  console.log(id);
+     console.log(id);
 
      try {
       name();

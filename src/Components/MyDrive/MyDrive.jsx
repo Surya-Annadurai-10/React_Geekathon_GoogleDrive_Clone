@@ -30,11 +30,11 @@ import MyDriveCard from "../MyDriveCard/MyDriveCard";
 const MyDrive = () => {
   const [showDropDown, setShowDropDown] = useState(false);
   const [showTypeDrop , setShowTypeDrop] = useState(false);
+  const [showOptions , setShowOptions] = useState (false);
+  const [downloadedContent , setDownloadedContent] = useState({});
+  const [boxLayout , setBoxLayout] = useState(false);
+  
   const stateData = useSelector(state => state.user.files);
-    const [showOptions , setShowOptions] = useState (false);
-    const [downloadedContent , setDownloadedContent] = useState({});
-      const [boxLayout , setBoxLayout] = useState(false);
-      
     
 
   

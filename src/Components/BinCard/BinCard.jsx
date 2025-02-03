@@ -12,12 +12,12 @@ const BinCard = (props) => {
 
 
     const convertDate =(num) =>{
-        console.log("num =>" , num);
+        // console.log("num =>" , num);
         
         let date = new Date(num)+""
         let today  = new Date() + ""
-        console.log("date:",date);
-        console.log("today:",today);
+        // console.log("date:",date);
+        // console.log("today:",today);
         let splicedDate = date.substring(4,10);
         let splicedToday = today.substring(4,10);
 

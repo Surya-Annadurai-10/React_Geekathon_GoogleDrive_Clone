@@ -12,14 +12,15 @@ import { IoMdLink } from "react-icons/io";
 import { IoIosStarOutline } from "react-icons/io";
 import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
 import { IoMdStar } from "react-icons/io";
-import { addDoc, collection, doc, updateDoc } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, getDocs, updateDoc } from 'firebase/firestore';
 import { firestore } from '../../firebase';
-import { starredData, updateIsFavInFiles } from '../../slices/userSlice';
+import { spreadDataStarred, starredData, unstarData, updateIsFavInFiles } from '../../slices/userSlice';
+import { v4 } from 'uuid';
 
 
 const MyDriveCard = (props) => {
 
-   console.log("props=>" ,props.obj)
+  //  console.log("props=>" ,props.obj)
    
 //    let finalObj = {
 //     ...props.obj,
@@ -29,13 +30,18 @@ const MyDriveCard = (props) => {
 //   console.log("finalObj:" , finalObj);
   
     const stateData = useSelector(state=> state.user.userData)
-    const stateFiles = useSelector(state=> state.user.files)
+    const stateFiles = useSelector(state=> state.user.files);
+    const stateStarred = useSelector(state => state.user.starred);
     const dispatch = useDispatch();
+    const starredDataBase = collection(firestore , "starred");
     // const starred = useSelector(state=> state.user.userData)
     // console.log(stateData);
 const [isStarred , setStarred] = useState(props.isFav);
 const [isStarred2 , setStarred2] = useState(false);
-let allowUse = false;
+const [fetchStarred,setFetchStarred] = useState(false);
+  const [starredBaseData , setStarredBinBaseData] = useState(null);
+
+// let allowUse = false;
 
 
 
@@ -82,7 +88,40 @@ let allowUse = false;
 
     }
 
+    useEffect(() =>{
+        async function name(params) {
+        try {
+          const getStarredData = await getDocs(starredDataBase);
+          console.log("getStarredData :" , getStarredData);
+  
+          const mappedGetStarredData = getStarredData.docs.map((ele) =>{
+            return {...ele.data() , baseId : ele.id};
+          })
+
+          console.log("mappedGetStarredData:") ,mappedGetStarredData;
+          
+          setStarredBinBaseData(mappedGetStarredData)
+        } catch (error) {
+           console.log("Error" , error);
+           
+        }
+       }
+
+       if(fetchStarred){
+        name();
+       }
+        
+    },[fetchStarred])
+
  
+
+    useEffect(() =>{
+
+    if(starredBaseData){
+      dispatch(spreadDataStarred(starredBaseData))
+    }
+
+    },[starredBaseData])
 
     useEffect(() =>{
        if(isStarred2){
@@ -92,18 +131,26 @@ let allowUse = false;
               if(isStarred){
                   const starredDataRef = collection(firestore , "starred");
                   const starredDocRef = doc(firestore , "files" , props.id);
+                  let baseIdval= v4();
                  let propObj ={
                     ...props.obj,
-                    isFav : true
+                    isFav : true,
+                    baseId : baseIdval
                   }
                  
+                  
                  
                   await updateDoc(starredDocRef ,propObj )
     
                   alert("Updated in files database Successfully")
                   await addDoc(starredDataRef , propObj);
                   alert("File Added in Recent database Successfully")
-                  dispatch(starredData(propObj));
+                  dispatch(starredData({
+                    ...propObj,
+                    baseId : baseIdval
+                  }));
+
+                  setFetchStarred(true);
                   let findIndex = stateFiles.findIndex(ele => ele.id == props.id);
                   let findValue = stateFiles.find(ele => ele.id == props.id);
 
@@ -126,17 +173,26 @@ let allowUse = false;
     
     
               if(!isStarred){
-                const starredDataRef = collection(firestore , "recent");
-                const starredDocRef = doc(firestore , "files" , props.id);
-                await updateDoc(starredDocRef , {
+                 
+                const deletableIndex = stateStarred.find(ele => props.id == ele.id);
+
+                const starredDataRef = doc(firestore , "starred" ,deletableIndex.baseId);
+                const UnstarredDocRefFiles = doc(firestore , "files" , props.id);
+               
+                await updateDoc(UnstarredDocRefFiles , {
                   ...props.obj,
                   isFav : false
                 })
+                setFetchStarred(false);
+
     
                 alert("Updated in files database Successfully")
-                await addDoc(starredDataRef , props.obj);
+                await deleteDoc(starredDataRef);
                 alert("File Added in Recent database Successfully")
-                dispatch(starredData(props.obj));
+                let findIndexInStarred = stateStarred.findIndex(ele => ele.id == props.id);
+                dispatch(unstarData(findIndexInStarred));
+               
+                // let findValueInStarred = stateStarred.find(ele => ele.id == props.id);
                 let findIndex = stateFiles.findIndex(ele => ele.id == props.id);
                 let findValue = stateFiles.find(ele => ele.id == props.id);
 
@@ -152,9 +208,9 @@ let allowUse = false;
                  index : findIndex,
                  object : finalObj
                 }))
-                alert("File Added in Recent store Successfully")
+                alert("File Added in Starred store Successfully")
                 // console.log("Inside name async func",propObj);
-                alert("File Added in Recent store Successfully")
+                // alert("File Added in Recent store Successfully")
                 // console.log("Inside name async func", props.obj);
     
             }

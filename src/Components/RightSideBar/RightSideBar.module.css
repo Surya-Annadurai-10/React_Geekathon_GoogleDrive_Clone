@@ -55,8 +55,12 @@
 }
 
 .leftIcon:hover{
-   background-color: #dad9d9;
-
+   background-color: #ececec;
+   width: 100px;
+   border-radius: 20px;
+   display: flex;
+   align-items: center;
+   justify-content: flex-start;
 }
 
 .leftIcon{
@@ -70,4 +74,5 @@
     right: 15%;
     border-radius: 50%;
     /* background-color: red; */
+    transition: 1s ease;
 }

@@ -5,7 +5,7 @@ import { firestore } from '../../firebase'
 import { collection, getDocs,deleteDoc, addDoc, doc } from 'firebase/firestore'
 import { storage } from '../../firebase'
 import { deleteObject, ref, uploadBytes } from 'firebase/storage'
-import {  setDeletedInBin, spreadData, spreadDataBin } from '../../slices/userSlice'
+import {  setDeletedInBin, spreadData, spreadDataBin, spreadDataStarred } from '../../slices/userSlice'
  import loadingGif from "../../assets/loading.gif"
  import { IoMdCheckmark } from "react-icons/io";
  import { MdOutlineMenu } from "react-icons/md";
@@ -32,6 +32,8 @@ const Home = () => {
   const [boxLayout , setBoxLayout] = useState(false);
   const [showOptions , setShowOptions] = useState (false);
   const [downloadedContent , setDownloadedContent] = useState({});
+            const [getData , setGetData] = useState(true);
+  
   // const [deletedDataId , setDeleteDataId] = useState("");
 
   const stateData = useSelector(state => state.user.files);
@@ -39,6 +41,9 @@ const Home = () => {
   const filesData = collection(firestore , "files")
   const binData = collection(firestore , "bin")
   const starredData = collection(firestore , "starred")
+
+  // console.log("mounted");
+  
   useEffect(() =>{
     
     const fetchData = async ()=>{
@@ -48,35 +53,43 @@ const Home = () => {
         const filesFromStarred = await getDocs(starredData)
     // console.log(fetchedfiles.docs);
     const mappedData = fetchedfiles.docs.map((val) =>{
-      console.log("val.id :" , val.id);
+      // console.log("val.id :" , val.id);
       
       return { ...val.data(),id : val.id }
     });
 
     const mappedDataBin = filesFromBin.docs.map((val) =>{
-      console.log("val.id :" , val.id);
+      // console.log("val.id :" , val.id);
       
       return { ...val.data(),id : val.id }
     });
 
     const mappedDataStarred = filesFromStarred.docs.map((val) =>{
-      console.log("val.id :" , val.id);
+      // console.log("val.id :" , val.id);
       
       return { ...val.data(),id : val.id }
     });
     setBaseData(mappedData)
     setBinBaseData(mappedDataBin)
     setStarredBinBaseData(mappedDataStarred)
+    console.log("Inside Fetching Data");
+    
+    
+    setGetData(false)
       } catch (error) {
         console.log("Error while fetching data:" , error)
       }
     }
-    fetchData();
+ 
+      fetchData();
+  
    },[]);
 
 
 
    const handleDelete = (id) =>{
+    console.log("id:" , id);
+    
     name(id)
   async function name(id) {
     try {
@@ -125,7 +138,9 @@ const Home = () => {
 
    if(baseData) {
     dispatch(spreadData(baseData));
-    setLoading(false);
+    // setLoading(false);
+    // console.log("Uploading baseData");
+    
    };
     
   },[baseData])
@@ -134,10 +149,25 @@ const Home = () => {
 
     if(BinBaseData) {
      dispatch(spreadDataBin(BinBaseData));
-     setLoading(false);
+    //  setLoading(false);
+    // console.log("Uploading BinbaseData");
+
     };
      
    },[BinBaseData])
+
+
+   useEffect(() =>{
+
+    if(starredBaseData) {
+     dispatch(spreadDataStarred(starredBaseData));
+  
+    // console.log("Uploading starredBaseData");
+    setLoading(false);
+
+    };
+     
+   },[starredBaseData])
 
   return (
    <>

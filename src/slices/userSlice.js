@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { act } from "react";
 
 const initState = {
   userData : {
@@ -26,11 +27,17 @@ const userSlice = createSlice({
             // console.log("files:" , action.payload);
         },
         spreadData(state , action){
-           state.files = [...action.payload]
+            state.files = [...action.payload]
+
         },
 
         spreadDataBin(state , action){
             state.bin = [...action.payload]
+        
+         },
+         spreadDataStarred(state , action){
+            state.starred = action.payload;
+
          },
         setShowNotification(state , action){
           state.showNotification = action.payload;
@@ -51,6 +58,9 @@ const userSlice = createSlice({
         },
         updateIsFavInFiles(state,action){
            state.files.splice(action.payload.index , 1 , action.payload.object);
+        },
+        unstarData(state , action){
+          state.starred.splice(action.payload , 1);
         }
 
     }
@@ -58,4 +68,4 @@ const userSlice = createSlice({
 console.log(initState.bin);
 
 export const userReducers = userSlice.reducer;
-export const {addUser,updateIsFavInFiles,starredData,removeItemFromBin,spreadDataBin,setDeletedInBin,addInFiles,spreadData,setShowNotification,setShowUploading} = userSlice.actions;
+export const {addUser,unstarData,spreadDataStarred,updateIsFavInFiles,starredData,removeItemFromBin,spreadDataBin,setDeletedInBin,addInFiles,spreadData,setShowNotification,setShowUploading} = userSlice.actions;

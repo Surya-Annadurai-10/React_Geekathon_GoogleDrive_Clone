@@ -8,7 +8,7 @@ import { IoMdVideocam } from "react-icons/io";
 
 
 const Cards = (props) => {
-   console.log("props=>" , props.obj)
+  //  console.log("props=>" , props.obj)
     const stateData = useSelector(state=> state.user.userData)
     // console.log(stateData);
 
@@ -28,13 +28,13 @@ const Cards = (props) => {
     let pdfStr = props.type.includes("pdf")
     
     if(imageStr){
-      console.log(true);
+      // console.log(true);
       return  <IoMdImage style={{color : "#EA4335", fontSize: "1.5rem"}} />
       
     }
     
     if(videoStr){
-      console.log(false);
+      // console.log(false);
       return <IoMdVideocam  style={{color : "#EA4335", fontSize: "1.5rem"}}/>
     }
 

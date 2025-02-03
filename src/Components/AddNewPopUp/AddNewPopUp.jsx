@@ -1,20 +1,21 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styles from './AddNewPopUp.module.css'
 import { storage } from '../../firebase';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import {v4} from 'uuid'
 import { useDispatch, useSelector } from 'react-redux';
-import { addInFiles, setShowNotification, setShowUploading  } from '../../slices/userSlice';
+import { addInFiles, setShowNotification, setShowUploading, spreadData, spreadDataBin, spreadDataStarred  } from '../../slices/userSlice';
 import { FaCaretRight } from "react-icons/fa"
 import { MdOutlineCreateNewFolder } from "react-icons/md";
 import { TbFileUpload } from "react-icons/tb";
 import { MdDriveFolderUpload } from "react-icons/md";
 import JSZip from 'jszip';
-import { collection,addDoc, getDocs } from 'firebase/firestore';
+import { collection,addDoc, getDocs, setDoc } from 'firebase/firestore';
 import { firestore } from '../../firebase';
 import Notification from '../Notification/Notification';
 
-const fileDataRef = collection(firestore , "files");
+
+
 
 
 const AddNewPopUp = (props) => {
@@ -23,18 +24,26 @@ const AddNewPopUp = (props) => {
   //  const showUploading = useSelector(state => state.showUploading)
     const [imageUpload , setImageUpload] = useState(null);
      const filesData = collection(firestore , "files")
+      //  const fileDataRef = collection(firestore , "files");
       const binData = collection(firestore , "bin")
+      const starredData = collection(firestore , "starred")
         const [baseData , setBaseData] = useState(null);
         const [BinBaseData , setBinBaseData] = useState(null);
+          const [starredBaseData , setStarredBinBaseData] = useState(null);
+          const [getData , setGetData] = useState(false);
+          const boxRef = useRef(null);
 
  const handleFileSubmit = async() =>{
     try {
       const [files] = await window.showOpenFilePicker();
     const file = await files.getFile();
-    console.log("file :" , file);
+    // console.log("file :" , file);
+    boxRef.current.style.display = "none";
     setImageUpload(file);
-    console.log("Image Uploaded in state");
+    // console.log("Image Uploaded in state");
     dispatch(setShowUploading(true));
+    
+
     } catch (error) {
       console.log("Error fetching data from ur system :" , error)
     }
@@ -42,29 +51,10 @@ const AddNewPopUp = (props) => {
  }
 
 
- 
- 
-   useEffect(() =>{
- 
-    if(baseData) {
-     dispatch(spreadData(baseData));
-    //  setLoading(false);
-    };
-     
-   },[baseData])
- 
-   useEffect(() =>{
- 
-     if(BinBaseData) {
-      dispatch(spreadDataBin(BinBaseData));
-      // setLoading(false);
-     };
-      
-    },[BinBaseData])
 
  useEffect(() =>{
     async function name(params) {
-  console.log("entering useEffect to uplaod file in the storage")
+  // console.log("entering useEffect to uplaod file in the storage")
 
       try {
           // creating reference where to store in while folder and in what name
@@ -82,56 +72,101 @@ const AddNewPopUp = (props) => {
             lastModifiedDate : imageUpload.lastModifiedDate + "",
             lastModified : imageUpload.lastModified,
             imageURL : url,
-            isFav : false
-            // id : v4()
+            isFav : false,
+            id : v4()
            }
-          //  alert("fileData added in firestore");
-      
-           console.log(reduxObj);
+          //  console.log(reduxObj);
            dispatch(addInFiles(reduxObj));
+           const fileDataRef = collection(firestore , "files");
            await addDoc(fileDataRef , reduxObj);
-            props.setShowNewAdd(false)
-            // setShowNotification(true);
+         
             dispatch(setShowUploading(false));
             dispatch(setShowNotification(true));
       } catch (error) {
         console.log("Error while uploading the file :" , error)
       }
 
-       const fetchData = async ()=>{
-            try {
-              const fetchedfiles = await getDocs(filesData)
-              const filesFromBin = await getDocs(binData)
-              // const filesFromBin = await getDocs(binData)
-          // console.log(fetchedfiles.docs);
-          const mappedData = fetchedfiles.docs.map((val) =>{
-            console.log("val.id :" , val.id);
-            
-            return { ...val.data(),id : val.id }
-          });
-      
-          const mappedDataBin = filesFromBin.docs.map((val) =>{
-            console.log("val.id :" , val.id);
-            
-            return { ...val.data(),id : val.id }
-          });
-          setBaseData(mappedData)
-          setBinBaseData(mappedDataBin)
-            } catch (error) {
-              console.log("Error while fetching data:" , error)
-            }
-          }
-          
-          fetchData();
+      setGetData(true)
         
     }
     if(imageUpload){
       name();
     }
 
-    console.log("imageUpload :" , imageUpload);
+    // console.log("imageUpload :" , imageUpload);
     
  },[imageUpload]);
+
+
+
+ useEffect(() =>{
+  const fetchData = async ()=>{
+    try {
+      const fetchedfiles = await getDocs(filesData)
+      const filesFromBin = await getDocs(binData)
+      const filesFromStarred = await getDocs(starredData)
+      const mappedData = fetchedfiles.docs.map((val) =>{
+    // console.log("val.id :" , val.id);
+    
+    return { ...val.data(),id : val.id }
+  });
+
+  const mappedDataBin = filesFromBin.docs.map((val) =>{
+    // console.log("val.id :" , val.id);
+    
+    return { ...val.data(),id : val.id }
+  });
+  const mappedDataStarred = filesFromStarred.docs.map((val) =>{
+    // console.log("val.id :" , val.id);
+    
+    return { ...val.data(),id : val.id }
+  });
+  setBaseData(mappedData)
+  setBinBaseData(mappedDataBin)
+  setStarredBinBaseData(mappedDataStarred)
+    } catch (error) {
+      console.log("Error while fetching data:" , error)
+    }
+    setGetData(false);
+}
+  
+  if(getData){
+ 
+      fetchData()
+    
+  }
+ },[getData])
+
+
+  
+ useEffect(() =>{
+ 
+  if(starredBaseData) {
+   dispatch(spreadDataStarred(starredBaseData));
+  //  setLoading(false);
+  };
+   
+ },[starredBaseData])
+
+
+
+useEffect(() =>{
+
+ if(baseData) {
+  dispatch(spreadData(baseData));
+ 
+ };
+  
+},[baseData])
+
+useEffect(() =>{
+
+  if(BinBaseData) {
+   dispatch(spreadDataBin(BinBaseData));
+   props.setShowNewAdd(false)
+  
+  };
+ },[BinBaseData])
 
  const handleFolderSubmit = async () =>{
    try{
@@ -145,7 +180,8 @@ const AddNewPopUp = (props) => {
      }
 
    }catch (error){
-
+          console.log("error :" , error);
+          
    }
  }
 
@@ -159,7 +195,7 @@ const AddNewPopUp = (props) => {
     <>
 
        <div onClick={() => {props.setShowNewAdd(false)}} className={styles.myDriveWrapper}>
-       <div onClick={(e) => handleStop(e)}  className={styles.myDriveContents}>
+       <div ref={boxRef} onClick={(e) => handleStop(e)}  className={styles.myDriveContents}>
                   <div className={styles.topOpt}>
                   <div >
                   <MdOutlineCreateNewFolder className={styles.icons} />
