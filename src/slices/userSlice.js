@@ -12,7 +12,10 @@ const initState = {
   showNotification : false,
   showUploading : false,
   bin : [],
-  starred : []
+  starred : [],
+  notes :[],
+  pinned : [],
+  listnotes : []
 }
 
 const userSlice = createSlice({
@@ -61,6 +64,38 @@ const userSlice = createSlice({
         },
         unstarData(state , action){
           state.starred.splice(action.payload , 1);
+        },
+        collectNotesData(state,action){
+         state.notes.unshift(action.payload)
+        },
+        deleteNotes(state,action){
+           state.notes.splice(action.payload , 1);
+        },
+        replaceEditedData(state , action){
+          let indexToBeReplaced = state.notes.findIndex((ele) => action.payload.id == ele.id);
+          state.notes.splice(indexToBeReplaced , 1 , action.payload);
+        },
+        collectInPinned(state , action){
+            const findIndex = state.notes.findIndex(ele => action.payload.id == ele.id);
+            state.notes.splice(findIndex , 1);
+             state.pinned.unshift(action.payload);
+        },
+        unPinData(state , action){
+             const findIndex = state.pinned.findIndex(ele => action.payload.id == ele.id);
+             state.pinned.splice(findIndex , 1);
+             state.notes.unshift(action.payload);
+
+        },
+        deleteInPinned(state , action){
+          state.pinned.splice(action.payload , 1);
+        },
+        replaceEditedDataInPinned(state,action){
+            const findIndex = state.pinned.findIndex(ele => ele.id == action.payload.id)
+
+            state.pinned.splice(findIndex , 1, action.payload);
+        },
+        addInListNotes(state , action){
+          state.listnotes.push(action.payload);
         }
 
     }
@@ -68,4 +103,4 @@ const userSlice = createSlice({
 console.log(initState.bin);
 
 export const userReducers = userSlice.reducer;
-export const {addUser,unstarData,spreadDataStarred,updateIsFavInFiles,starredData,removeItemFromBin,spreadDataBin,setDeletedInBin,addInFiles,spreadData,setShowNotification,setShowUploading} = userSlice.actions;
+export const {addUser,addInListNotes,replaceEditedDataInPinned,deleteInPinned,unPinData,collectInPinned,replaceEditedData,deleteNotes,collectNotesData,unstarData,spreadDataStarred,updateIsFavInFiles,starredData,removeItemFromBin,spreadDataBin,setDeletedInBin,addInFiles,spreadData,setShowNotification,setShowUploading} = userSlice.actions;

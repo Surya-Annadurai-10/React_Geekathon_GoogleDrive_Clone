@@ -1,8 +1,211 @@
 .notesCon{
     width: 100%;
-    height: 7%;
+    height: 8%;
     background-color: #FBBC04;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 1rem;
+    position: relative;
 }
+
+
+
+.notesCon p{
+    font-weight: 400;
+    letter-spacing: 2px;
+}
+
+.notesCon h3{
+    font-size: 1.4rem;
+}
+
+.search{
+    position: absolute;
+    right: 12%;
+    top: 28%;
+    font-size: 1.5rem;
+    padding: 0.1rem;
+    background: white;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+}
+
+
+.cancel{
+    color: rgb(58, 58, 58);
+    font-size: 1.2rem;
+}
+
+.inputHead{
+    width: 100%;
+    height: 8%;
+   display: flex;
+   justify-content: flex-start;
+   align-items: center;
+   background-color: #FBBC04;
+}
+
+.innerInputBox{
+    width: 80%;
+    height: 80%;
+    background-color: white;
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-inline: 1rem;
+}
+
+.innerInputBox input{
+    width:100%;
+    height: 100%;
+    border-radius: 20px;
+    border: none;
+    background-color: transparent;
+    color: black;
+    font-size: 1.2rem;
+   outline: none;
+}
+
+
+.addCon{
+    width: 100%;
+    height: 40px;
+    display: flex ;
+    align-items: center;
+    justify-content: space-between;
+    padding-inline: 1rem;
+    margin-top: 1rem;
+    /* background-color: red; */
+}
+
+.addCon div{
+    width: 90%;
+    height: 100%;
+    border-radius: 20px;
+    display: flex ;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+    padding-inline: 1rem;
+}
+.addCon div:hover{
+    background-color: rgb(241, 241, 241);
+}
+
+.addCon p{
+    color: #5F6380;
+}
+
+.check{
+    padding: 0.3rem;
+    /* background-color: red; */
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 2rem;
+    color: #757575;
+}
+
+.check:hover{
+    background-color: rgb(241, 241, 241);
+
+}
+
+.titleInputSection{
+    width: 100%;
+    height: 30px;
+    display:flex;
+    align-items: center;
+   justify-content: center;
+}
+
+.titleInputSection div:first-child{
+    width: 80%;
+    height: 100%;
+    background-color: red;
+}
+
+.titleInputSection div:nth-child(2){
+     width: 20%;
+     height: 100%;
+    /* background-color: yellow; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.textareaCon{
+    width: 90%;
+   min-height: fit-content;
+    margin: auto;
+    border-radius: 10px;
+    box-shadow: 1px 1px 10px grey;
+    margin-top: 2rem;
+    padding: 0.5rem;
+    position: relative;
+}
+
+.titleInputSection div:first-child input{
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+    padding-inline: 0.5rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.threeDots,
+.pin{
+    font-size: 1.3rem;
+}
+
+.textareaCon textarea{
+    width: 100%;
+    height: 100%;
+    border: none;
+    font-size: 1.1rem;
+    padding: 0.5rem;
+    margin-bottom: 2rem;
+    outline: none;
+
+}
+
+.textareaCon .button{
+    position: absolute;
+    right: 5%;
+    bottom: 5%;
+    width: 50px;
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+    /* display: none; */
+}
+
+.cancelBtn{
+    position: absolute;
+    right: 25%;
+    bottom: 5%;
+    font-size: 0.9rem;
+    width: 50px;
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+}
+
+.cancelBtn:hover{
+    background-color: #FBBC04;
+    color: white;
+    font-weight: bold;
+}
+
+.textareaCon button:hover{
+    background-color: #FBBC04;
+    color: white;
+    font-weight: bold;
+}
+

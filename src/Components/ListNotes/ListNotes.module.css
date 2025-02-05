@@ -1,0 +1,116 @@
+.listNotesCon{
+    width: 90%;
+    margin: auto;
+    /* background-color: red; */
+    /* min-height: 200px; */
+    padding: 0.8rem;
+    margin-top: 2rem;
+    border-radius: 10px;
+    box-shadow: 1px 1px 10px grey;
+    position: relative;
+}
+.inputCon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    /* background-color: red; */
+}
+
+.inputCon input{
+    width: 100%;
+    height: 30px;
+    border: none;
+    outline: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.textareaBox{
+    width: 100%;
+    font-size: 1.2rem;
+    /* height: 70px; */
+    padding: 0.2rem;
+    border: none;
+    outline: none;
+    margin-bottom: 3rem;
+}
+
+.donebtn{
+    margin-top: 1rem;
+    position: absolute;
+    right: 5%;
+    bottom: 8%;
+}
+
+.inputConInner{
+    width: 77%;
+}
+.iconsDiv{
+  width: 23%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* background-color: yellow; */
+}
+.threeDotsList{
+    font-size:2rem;
+    /* background-color: rgb(227, 227, 227); */
+    border-radius: 50%;
+    padding: 0.3rem;
+}
+.threeDotsList:hover{
+    background-color: rgb(227, 227, 227);
+
+}
+
+
+
+.textareacON{
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+
+}
+
+.donebtn{
+    padding: 0.5rem 1rem;
+    border-radius: 5px ;
+    border: none;
+    font-size: 0.9rem;
+    /* background-color:#FBBC04; */
+    /* color: white; */
+}
+
+.donebtn:hover{
+    background-color:#FBBC04; 
+     color: white;
+     font-weight: bold;
+}
+
+.plus{
+    font-size: 1.8rem;
+    color: #7E8690;
+    padding: 0.3rem;
+}
+
+
+.listNotesSection{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.5rem;
+    margin: 1rem 0;
+    /* background-color: red; */
+    font-size: 1.1rem;
+}
+
+.box{
+    color: rgb(94, 94, 94);
+}
+
+.para{
+    width: 100%;
+     /* background-color: red; */
+}

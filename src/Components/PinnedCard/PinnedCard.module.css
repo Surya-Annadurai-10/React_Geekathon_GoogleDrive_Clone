@@ -1,0 +1,89 @@
+.noteCard{
+    width: 90%;
+    margin: auto;
+    border: 1px solid rgb(59, 141, 228);
+    margin-top: 1.5rem;
+    padding: 1rem;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    transition-duration: 0.5s;
+    position: relative;
+    background: #F8FAFD;
+}
+
+.noteCard p{
+    color: #5F6368;
+    font-family: 0.9rem
+}
+
+.noteCard h3{
+    color: #202424;
+    font-weight: 600;
+    margin-bottom: 0.5rem
+}
+
+.noteCard:hover{
+    box-shadow: 1px 1px 10px grey;
+   transform: scale(1.1);
+}
+
+.threeDots,
+.pin{
+    font-size: 1.5rem;
+    padding: 0.2rem;
+    /* background-color: red; */
+    border-radius: 50%;
+  
+}
+
+.threeDots:hover,.pin:hover{
+   background-color: rgb(217, 217, 217);
+}
+
+.threeDots{
+    visibility: hidden;
+}
+
+.noteCard:hover .threeDots{
+  visibility: visible;
+  cursor: pointer;
+}
+
+.noteCardHead{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.options{
+    width: 100px;
+    height: 50px;
+    
+    border-radius: 5px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+    position: absolute;
+    top: 48%;
+    right: 0;
+    color: black;
+    background-color: white;
+    box-shadow: 1px 1px 2px grey;
+    /* padding-inline: 1rem; */
+}
+
+.options p {
+    color: #000;
+    padding: 0.3rem 0;
+    width: 100%;
+    height: 20px;
+    padding-inline: 1rem;
+    /* background-color: red; */
+}
+
+
+.options p:hover{
+    background-color: rgb(240, 240, 240);
+    cursor: pointer;
+}
