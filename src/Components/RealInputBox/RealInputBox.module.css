@@ -3,10 +3,10 @@
 position: relative;
     margin: auto;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 0.5rem;
     justify-content: flex-start;
-
+    /* background-color: red; */
 }
 
 .box{
@@ -31,5 +31,12 @@ position: relative;
     border: none;
     outline: none;
   
+}
+
+.checkBox{
+    height: 26.5px;
+   
+    display: grid;
+    place-items: center;
 }
 

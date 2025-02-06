@@ -4,6 +4,7 @@ import { MdOutlineCheckBoxOutlineBlank } from "react-icons/md";
 import { MdCancel } from "react-icons/md";
 import { useDispatch } from 'react-redux';
 import { addInListNotes } from '../../slices/userSlice';
+import { v4 } from 'uuid';
 
 const RealInputBox = (props) => {
      const realInputRef = useRef(null);
@@ -17,12 +18,21 @@ const RealInputBox = (props) => {
 
      useEffect(() =>{
          if(props.sendListData){
-            let listData = realInputRef.current.value;
-         console.log("listData :" , listData);
-         realInputRef.current.value = "";
+          let listData;
+           if(realInputRef.current.value){
+            listData = {
+              id : v4(),
+              completed : false,
+              value : realInputRef.current.value 
+            };
+
+            realInputRef.current.value = "";
         
-         dispatch(addInListNotes(listData))
-        realInputRef.current.focus();
+            dispatch(addInListNotes(listData))
+           realInputRef.current.focus();
+           }
+         console.log("listData :" , listData);
+        
         props.setSendListData(false);
          }  
      },[props.sendListData])
@@ -32,7 +42,10 @@ const RealInputBox = (props) => {
         <div className={styles.checkBox}>
         <MdOutlineCheckBoxOutlineBlank className={styles.box} />
         </div>
-        <MdCancel onClick={() => props.setShowRealInput(false)} className={styles.fieldCancel} />
+        <MdCancel onClick={() => {
+          props.setShowRealInput(false)
+          props.setSendListData(true);
+        }} className={styles.fieldCancel} />
         <textarea ref={realInputRef} className={styles.textareaBox} type="text" /> 
       </div>
    </>

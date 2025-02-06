@@ -18,7 +18,7 @@ const handleDelete =(id) =>{
    const deletableIndex = stateNotes.findIndex(ele => ele.id == id);
 
 console.log(deletableIndex);
-
+   setShowOptions(false)
       dispatch(deleteNotes(deletableIndex))
 }
 
@@ -35,7 +35,8 @@ const handlePin = (id) =>{
     const pinnedData = {
         id :id,
         title :props.title,
-        body : props.body
+        body : props.body,
+        type : "notes"
        }
 
        dispatch(collectInPinned(pinnedData));

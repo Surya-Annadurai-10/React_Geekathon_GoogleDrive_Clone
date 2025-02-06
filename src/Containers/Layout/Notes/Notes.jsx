@@ -14,6 +14,8 @@ import { v4 } from 'uuid';
 import { collectNotesData, replaceEditedData, replaceEditedDataInPinned } from '../../../slices/userSlice';
 import PinnedCard from '../../../Components/PinnedCard/PinnedCard';
 import ListNotes from '../../../Components/ListNotes/ListNotes';
+import ListNotesDisplayCard from '../../../Components/ListNotesDisplayCard/ListNotesDisplayCard';
+import PinnedListNotesDisplayCard from '../../../Components/PinnedListNotesDisplayCard/PinnedListNotesDisplayCard';
 
 const Notes = () => {
   const [showInput , setShowInput] = useState(false);
@@ -26,7 +28,8 @@ const Notes = () => {
   // const [body , setBody] = useState("")
   const titleRef = useRef(null);
   const bodyRef = useRef(null);
- 
+  const [isListNoteEditMode , setIsListNoteEditMode] = useState (false);
+ const [listNoteData , setListNoteData] = useState({});
   const [isEditMode, setIsEditMode] = useState(false);
   const [editedValue , setEditedValue] = useState({})
 
@@ -53,13 +56,8 @@ useEffect(() =>{
       id : isEditMode ? editedValue.id : v4(),
       title : titleRef.current.value,
       body : bodyRef.current.value, 
+      type : "notes"
     }
-
-    useEffect(() =>{
-       if(listInputRef.current && showListTextArea){
-        listInputRef.current.value = "this is in useEffect focus"
-       }
-    },[showListTextArea])
 
 if(editedValue.pinned){
   dispatch(replaceEditedDataInPinned(notesData));
@@ -79,24 +77,13 @@ if(isEditMode){
 }
   }
 
-  // const createListTextBox =() =>{
-  //   return <div className={styles.listNotesCon}>
-  //        <div className={styles.inputCon}>
-  //        <div className={styles.inputConInner}>
-  //         <input  type="text" placeholder={"Title.."} className={styles.inputBox} />
-  //        </div>
-  //        <div className={styles.iconsDiv}>
-  //         <BsThreeDotsVertical className={styles.threeDotsList} />
-  //         <MdPushPin className={styles.threeDotsList} />
-  //        </div>
-  //        </div>
-  //        <div className={styles.textareacON}>
-  //        <FaPlus className={styles.plus} />
-  //        <input ref={listInputRef} className={styles.textareaBox} placeholder={"List item.."} />
-  //        </div>
-  //        <button onClick={() => setShowListTextArea(false)} className={styles.donebtn}>Done</button>
-  //   </div>
-  // }
+
+
+  const fetchListNoteData = (val) =>{
+    console.log("Val :" , val);
+    setListNoteData(val)
+    setIsListNoteEditMode(true);
+  }
 
   const handleListNotes = () =>{
     setShowListTextArea(true);
@@ -160,7 +147,7 @@ if(isEditMode){
     </div> :
     <div>
       {
-        showListTextArea ? <ListNotes showListTextArea={showListTextArea} setShowListTextArea={setShowListTextArea} />: <div>
+        showListTextArea ? <ListNotes listNoteData={listNoteData} isListNoteEditMode={isListNoteEditMode} setIsListNoteEditMode={setIsListNoteEditMode} showListTextArea={showListTextArea} setShowListTextArea={setShowListTextArea} />: <div>
         <div  className={styles.addCon}>
         <div onClick={() => setShowTextArea(true)}>
          <IoMdAdd style={{color : "#FBBC04" , fontSize:"1.8rem"}} />
@@ -175,13 +162,21 @@ if(isEditMode){
 
    {
       statePinned.map((ele , i) =>{
+       if(ele.type == "notes"){
         return <PinnedCard  retrieveData={retrieveData} setShowTextArea={setShowTextArea}  key={i}  {...ele} />
+       }else if(ele.type == "listnotes"){
+        return <PinnedListNotesDisplayCard fetchListNoteData={fetchListNoteData} setIsListNoteEditMode={setIsListNoteEditMode} setShowListTextArea={setShowListTextArea} key={ele.id} {...ele} />
+       }
       })
    }
 
    {
       stateNotes.map((ele , i) =>{
+       if(ele.type == "notes"){
         return <NotesCard  retrieveData={retrieveData} setShowTextArea={setShowTextArea}  key={i}  {...ele} />
+       }else if(ele.value.type == "listnotes"){
+        return <ListNotesDisplayCard fetchListNoteData={fetchListNoteData} setIsListNoteEditMode={setIsListNoteEditMode} setShowListTextArea={setShowListTextArea} key={ele.id} {...ele} />
+       }
       })
    }
     </>

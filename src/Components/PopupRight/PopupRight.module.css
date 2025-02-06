@@ -4,6 +4,7 @@
     background-color: #ffffff;
     position: relative;
     transition: 0.5s ease-in;
+    overflow: scroll;
 }
 
 .clear{

@@ -1,0 +1,43 @@
+
+.listNotesSection{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.5rem;
+    /* margin: 0.5rem 0; */
+    /* background-color: red; */
+    padding: 0.5rem;
+    border-radius: 20px;
+    font-size: 1.1rem;
+}
+
+.listNotesSection:hover{
+    background-color: rgb(230, 230, 230);
+}
+
+
+.box{
+    color: rgb(94, 94, 94);
+    transition: 0.3s ease;
+    font-size: 1.5rem;
+}
+
+.box:hover{
+     transform: scale(1.5);
+  
+}
+
+
+.para{
+    width: 100%;
+     /* background-color: red; */
+}
+
+.cancelListNote{
+    font-size: 1.3rem;
+    visibility: hidden;
+}
+
+.listNotesSection:hover .cancelListNote{
+    visibility: visible;
+}

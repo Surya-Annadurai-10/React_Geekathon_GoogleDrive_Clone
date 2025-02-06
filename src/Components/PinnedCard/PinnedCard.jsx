@@ -28,7 +28,8 @@ const handleEdit =(id) =>{
     id :id,
     title :props.title,
     body : props.body,
-    pinned : true
+    pinned : true, 
+     type : "notes"
    })
    props.setShowTextArea(true);
 }
@@ -37,7 +38,8 @@ const handleUnPin = (id) =>{
     const pinnedData = {
         id :id,
         title :props.title,
-        body : props.body
+        body : props.body,
+        type : "notes"
        }
 
        dispatch(unPinData(pinnedData));
