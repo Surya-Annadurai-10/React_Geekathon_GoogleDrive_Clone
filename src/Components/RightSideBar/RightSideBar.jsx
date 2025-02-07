@@ -14,25 +14,37 @@ const RightSideBar = (props) => {
 
   const handleCalender = () =>{
     setIsPopOpen(true);
-    props.setShowPopupRight(!props.showPopupRight)
-    props.setShowCalender(!props.showCalender)
+    props.setShowPopupRight(true)
+    props.setShowCalender(true)
+    props.setShowNotes(false)
+    props.setShowTask(false)
+    props.setShowContacts(false)
   }
 
   const handleNotes = () =>{
     setIsPopOpen(true);
-    props.setShowPopupRight(!props.showPopupRight)
-    props.setShowNotes(!props.showNotes)
+    props.setShowPopupRight(true)
+    props.setShowCalender(false)
+    props.setShowNotes(true)
+    props.setShowTask(false)
+    props.setShowContacts(false)
   }
   const handleTask = () =>{
     setIsPopOpen(true);
-    props.setShowPopupRight(!props.showPopupRight)
-    props.setShowTask(!props.showTask)
+    props.setShowPopupRight(true)
+    props.setShowCalender(false)
+    props.setShowNotes(false)
+    props.setShowTask(true)
+    props.setShowContacts(false)
   }
 
   const handleContacts = () =>{
     setIsPopOpen(true);
-    props.setShowPopupRight(!props.showPopupRight)
-    props.setShowContacts(!props.showContacts)
+    props.setShowPopupRight(true)
+    props.setShowCalender(false)
+    props.setShowNotes(false)
+    props.setShowTask(false)
+    props.setShowContacts(true)
   }
   return (
     <>

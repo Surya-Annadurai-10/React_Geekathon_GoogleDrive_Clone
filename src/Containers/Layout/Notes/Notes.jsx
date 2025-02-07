@@ -16,6 +16,12 @@ import PinnedCard from '../../../Components/PinnedCard/PinnedCard';
 import ListNotes from '../../../Components/ListNotes/ListNotes';
 import ListNotesDisplayCard from '../../../Components/ListNotesDisplayCard/ListNotesDisplayCard';
 import PinnedListNotesDisplayCard from '../../../Components/PinnedListNotesDisplayCard/PinnedListNotesDisplayCard';
+import { BsAndroid2 } from "react-icons/bs";
+import { SiIos } from "react-icons/si";
+import { MdWeb } from "react-icons/md";
+import { IoExtensionPuzzle } from "react-icons/io5";
+
+
 
 const Notes = () => {
   const [showInput , setShowInput] = useState(false);
@@ -24,15 +30,15 @@ const Notes = () => {
   const stateNotes = useSelector(state => state.user.notes)
   const statePinned = useSelector(state => state.user.pinned)
   const dispatch = useDispatch();
-  // const [title , setTitle] = useState("")
-  // const [body , setBody] = useState("")
+  
   const titleRef = useRef(null);
   const bodyRef = useRef(null);
   const [isListNoteEditMode , setIsListNoteEditMode] = useState (false);
  const [listNoteData , setListNoteData] = useState({});
   const [isEditMode, setIsEditMode] = useState(false);
   const [editedValue , setEditedValue] = useState({})
-
+  const [inputValue , setInputValue] = useState ("");
+  
 const retrieveData = (value) =>{
   console.log("value :" , value);
   
@@ -90,6 +96,18 @@ if(isEditMode){
  
 
   }
+
+  const handleSearch = (value) =>{
+  
+     console.log("value:" ,value)
+     setInputValue(value);
+  }
+
+  useEffect(() =>{
+    let filtered = stateNotes.filter(ele => ele.title.toLowerCase() == inputValue.toLowerCase());
+    console.log("filtered:" , filtered);
+    
+  },[inputValue]);
  
 
 
@@ -101,8 +119,11 @@ if(isEditMode){
   
          <div className={styles.inputHead}>
          <div className={styles.innerInputBox}>
-          <input type="text" placeholder="Search.." />
-          <MdCancel onClick={() => setShowInput(false)} className={styles.cancel} />
+          <input onChange={(e) => handleSearch(e.target.value)}  type="text" placeholder="Search by title.." />
+          <MdCancel onClick={() =>{
+             setShowInput(false);
+             setInputValue("");
+          }} className={styles.cancel} />
          </div>
 
         
@@ -160,25 +181,73 @@ if(isEditMode){
     </div>
    }
 
-   {
-      statePinned.map((ele , i) =>{
-       if(ele.type == "notes"){
-        return <PinnedCard  retrieveData={retrieveData} setShowTextArea={setShowTextArea}  key={i}  {...ele} />
-       }else if(ele.type == "listnotes"){
-        return <PinnedListNotesDisplayCard fetchListNoteData={fetchListNoteData} setIsListNoteEditMode={setIsListNoteEditMode} setShowListTextArea={setShowListTextArea} key={ele.id} {...ele} />
-       }
-      })
-   }
+ <div>
+  {
+    stateNotes.length == 0 ?
+    <motion.div 
+       initial={{
+        scale : 0
+       }}
+       animate={{
+        scale : 1
+       }}
+       transition={{
+        // delay : 0.5,
+        duration : 0.5
+       }}
+    className={styles.noNotesCon}>
+       <div className={styles.imgCont}>
+        <img src="https://pngimg.com/uploads/folder/folder_PNG100450.png" alt="" />
+       </div>
 
-   {
-      stateNotes.map((ele , i) =>{
-       if(ele.type == "notes"){
-        return <NotesCard  retrieveData={retrieveData} setShowTextArea={setShowTextArea}  key={i}  {...ele} />
-       }else if(ele.value.type == "listnotes"){
-        return <ListNotesDisplayCard fetchListNoteData={fetchListNoteData} setIsListNoteEditMode={setIsListNoteEditMode} setShowListTextArea={setShowListTextArea} key={ele.id} {...ele} />
-       }
-      })
-   }
+       <div className={styles.noNotesYet}>
+        <h2>No notes yet</h2>
+        <p>Your notes from Google Keep will <br /> appear here.</p>
+       </div>
+       <div className={styles.iconsSection}>
+        <div>
+        <BsAndroid2  style={{color : "#FCC524", fontSize: "1.7rem"}} />
+        <p>Android Devices</p>
+        </div>
+        <div>
+        <SiIos  style={{color : "#FCC524", fontSize: "1.7rem"}}/>
+        <p>iPhone and iPad</p>
+        </div>
+        <div>
+        <MdWeb  style={{color : "#FCC524", fontSize: "1.7rem"}}/>
+        <p>Web app</p>
+        </div>
+        <div>
+        <IoExtensionPuzzle style={{color : "#FCC524", fontSize: "1.7rem"}} />
+        <p>Chrome extension</p>
+        </div>
+       </div>
+
+
+    </motion.div> : 
+    <div>
+    {
+         statePinned.filter(ele => ele.title.toLowerCase().includes( inputValue.toLowerCase())).map((ele , i) =>{
+          if(ele.type == "notes"){
+           return <PinnedCard  retrieveData={retrieveData} setShowTextArea={setShowTextArea}  key={i}  {...ele} />
+          }else if(ele.type == "listnotes"){
+           return <PinnedListNotesDisplayCard fetchListNoteData={fetchListNoteData} setIsListNoteEditMode={setIsListNoteEditMode} setShowListTextArea={setShowListTextArea} key={ele.id} {...ele} />
+          }
+         })
+      }
+   
+      {
+          stateNotes.filter(ele => ele.title.toLowerCase().includes( inputValue.toLowerCase())).map((ele , i) =>{
+          if(ele.type == "notes"){
+           return <NotesCard  retrieveData={retrieveData} setShowTextArea={setShowTextArea}  key={i}  {...ele} />
+          }else if(ele.value.type == "listnotes"){
+           return <ListNotesDisplayCard fetchListNoteData={fetchListNoteData} setIsListNoteEditMode={setIsListNoteEditMode} setShowListTextArea={setShowListTextArea} key={ele.id} {...ele} />
+          }
+         })
+      }
+    </div>
+  }
+ </div>
     </>
   )
 }

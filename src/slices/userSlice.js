@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { act } from "react";
+import { v4 } from "uuid";
 
 const initState = {
   userData : {
@@ -19,8 +20,17 @@ const initState = {
     incomplete : [],
     completed : [],
     type : "listnotes"
-  }
-   
+  },
+   tasksObj : {
+     tasks :[{
+      id :v4(),
+      title : "titleRef.current.value",
+      details : "detatailsRef.current.value",
+      period : "period",
+      starred : false
+    }],
+     pinned :[]
+   }
  
 }
 
@@ -150,6 +160,9 @@ const userSlice = createSlice({
                 state.pinned.splice(findIndex , 1);
                 state.notes.unshift(findValue);
             
+            },
+            addTasks(state , action) {
+               state.tasksObj.tasks.push(action.payload)
             }
 
 
@@ -159,4 +172,4 @@ const userSlice = createSlice({
 console.log(initState.bin);
 
 export const userReducers = userSlice.reducer;
-export const {addUser,unPinListNotes,addInPinnedArray,replaceEditedListNoteData,resetEditableValueInCompletedAndIncomplete,deleteListNotesFromNotesArray,addListNotesInNotesArray,markAsIncompleteAndShift,addInCompletedListNotes,deleteListNote,addInListNotes,replaceEditedDataInPinned,deleteInPinned,unPinData,collectInPinned,replaceEditedData,deleteNotes,collectNotesData,unstarData,spreadDataStarred,updateIsFavInFiles,starredData,removeItemFromBin,spreadDataBin,setDeletedInBin,addInFiles,spreadData,setShowNotification,setShowUploading} = userSlice.actions;
+export const {addUser,addTasks,unPinListNotes,addInPinnedArray,replaceEditedListNoteData,resetEditableValueInCompletedAndIncomplete,deleteListNotesFromNotesArray,addListNotesInNotesArray,markAsIncompleteAndShift,addInCompletedListNotes,deleteListNote,addInListNotes,replaceEditedDataInPinned,deleteInPinned,unPinData,collectInPinned,replaceEditedData,deleteNotes,collectNotesData,unstarData,spreadDataStarred,updateIsFavInFiles,starredData,removeItemFromBin,spreadDataBin,setDeletedInBin,addInFiles,spreadData,setShowNotification,setShowUploading} = userSlice.actions;
