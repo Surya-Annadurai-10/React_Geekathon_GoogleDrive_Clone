@@ -14,7 +14,9 @@ import { MdClear } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { addTasks } from "../../slices/userSlice";
 import { v4 } from "uuid";
+import { FaAngleDown } from "react-icons/fa6";
 import TasksCard from "../../Components/TasksCard/TasksCard";
+import TaskCompletedCard from "../../Components/TaskCompletedCard/TaskCompletedCard";
 
 const Tasks = () => {
   const [headTask, setHeadTask] = useState("My Tasks");
@@ -25,7 +27,8 @@ const Tasks = () => {
   const dateRef = useRef(null)
   const [period , setPeriod] = useState("");
   const stateTasks = useSelector(state => state.user.tasksObj.tasks)
-
+  const stateCompleted = useSelector(state => state.user.tasksObj.completed)
+  const [showCompletedList , setShowCompletedList] = useState(false);
   const dispatch = useDispatch();
   
 
@@ -49,7 +52,7 @@ console.log("------------------------");
     setPeriod("");
     detatailsRef.current.value= "";
     titleRef.current.value= "";
-    
+    setShowInputBoxes(false);
   }
 
 
@@ -104,7 +107,7 @@ console.log("------------------------");
         </header>
 
         <main>
-          <div className={styles.addTasksCon}>
+          <div onClick={() => setShowInputBoxes(true)} className={styles.addTasksCon}>
             <div>
             <MdAddTask style={{fontSize:"1.2rem"}} />
             <p>Add Tasks</p>
@@ -153,6 +156,24 @@ console.log("------------------------");
             }
           </div>
         </section>
+      </div>
+      <div className={styles.completedCon}>
+        <div className={styles.completedHeader} onClick={() => setShowCompletedList(!showCompletedList)}>
+   
+           <FaAngleDown style={{transition : "0.3s ease",rotate : showCompletedList ? "-90deg" : "0deg"}} />
+
+          <span>{stateCompleted.length}</span> 
+          <h3>Completed</h3>
+        </div>
+        {
+          showCompletedList ? <div >
+          {
+            stateCompleted.map(ele =>{
+              return <TaskCompletedCard key={ele.id} {...ele} />
+            })
+          }
+        </div> : null
+        }
       </div>
     </>
   );

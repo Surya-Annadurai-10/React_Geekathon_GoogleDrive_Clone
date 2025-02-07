@@ -22,14 +22,10 @@ const initState = {
     type : "listnotes"
   },
    tasksObj : {
-     tasks :[{
-      id :v4(),
-      title : "titleRef.current.value",
-      details : "detatailsRef.current.value",
-      period : "period",
-      starred : false
-    }],
-     pinned :[]
+     tasks : [],
+     pinned : [],
+     completed : [],
+     starred : []
    }
  
 }
@@ -163,8 +159,55 @@ const userSlice = createSlice({
             },
             addTasks(state , action) {
                state.tasksObj.tasks.push(action.payload)
-            }
+            },
+            markAsCompleted(state ,action) {
+              let findIndex = state.tasksObj.tasks.findIndex(ele => ele.id == action.payload);
+              let find = state.tasksObj.tasks.find(ele => ele.id == action.payload);
 
+
+              state.tasksObj.tasks.splice(findIndex , 1);
+              state.tasksObj.completed.push(find);
+            },
+            deleteFromTasksCompleted(state , action){
+               let findIndex = state.tasksObj.completed.findIndex(ele => ele.id == action.payload);
+               state.tasksObj.completed.splice(findIndex , 1);
+            },
+            markAsUncompleted(state , action){
+              const findIndex = state.tasksObj.completed.findIndex(ele => ele.id == action.payload)
+              const findValue = state.tasksObj.completed.find(ele => ele.id == action.payload)
+
+              state.tasksObj.completed.splice(findIndex , 1);
+              state.tasksObj.tasks.unshift(findValue);
+            },
+            addEditedTasksInTasksArray (state , action){
+            let findIndex = state.tasksObj.tasks.findIndex(ele => ele.id == action.payload.id);
+            state.tasksObj.tasks.splice(findIndex , 1, action.payload)
+            },
+            addInStarred(state ,action){
+              let findValue = state.tasksObj.tasks.find(ele => ele.id == action.payload);
+              let findIndex = state.tasksObj.tasks.findIndex(ele => ele.id == action.payload);
+                 let newObj = {
+                  ...findValue , 
+                  starred : true
+                 }
+
+                 state.tasksObj.tasks.splice(findIndex , 1, newObj);
+              
+              state.tasksObj.starred.push(newObj);
+            },
+            unStarTheTask(state , action){
+              let findIndex = state.tasksObj.starred.findIndex(ele => ele.id == action.payload);
+              let findValue = state.tasksObj.starred.find(ele => ele.id == action.payload);
+              let newObj = {
+                ...findValue , 
+                starred : false
+              }
+
+              let findIndexInTasks = state.tasksObj.tasks.findIndex(ele => ele.id == action.payload);
+
+              state.tasksObj.tasks.splice(findIndexInTasks , 1, newObj)
+              state.tasksObj.starred.splice(findIndex , 1 );
+            }
 
 
     }
@@ -172,4 +215,4 @@ const userSlice = createSlice({
 console.log(initState.bin);
 
 export const userReducers = userSlice.reducer;
-export const {addUser,addTasks,unPinListNotes,addInPinnedArray,replaceEditedListNoteData,resetEditableValueInCompletedAndIncomplete,deleteListNotesFromNotesArray,addListNotesInNotesArray,markAsIncompleteAndShift,addInCompletedListNotes,deleteListNote,addInListNotes,replaceEditedDataInPinned,deleteInPinned,unPinData,collectInPinned,replaceEditedData,deleteNotes,collectNotesData,unstarData,spreadDataStarred,updateIsFavInFiles,starredData,removeItemFromBin,spreadDataBin,setDeletedInBin,addInFiles,spreadData,setShowNotification,setShowUploading} = userSlice.actions;
+export const {addUser,unStarTheTask,addInStarred,addEditedTasksInTasksArray,markAsUncompleted,deleteFromTasksCompleted,markAsCompleted,addTasks,unPinListNotes,addInPinnedArray,replaceEditedListNoteData,resetEditableValueInCompletedAndIncomplete,deleteListNotesFromNotesArray,addListNotesInNotesArray,markAsIncompleteAndShift,addInCompletedListNotes,deleteListNote,addInListNotes,replaceEditedDataInPinned,deleteInPinned,unPinData,collectInPinned,replaceEditedData,deleteNotes,collectNotesData,unstarData,spreadDataStarred,updateIsFavInFiles,starredData,removeItemFromBin,spreadDataBin,setDeletedInBin,addInFiles,spreadData,setShowNotification,setShowUploading} = userSlice.actions;
