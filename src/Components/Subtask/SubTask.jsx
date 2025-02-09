@@ -28,16 +28,15 @@ const SubTask = (props) => {
     const subDetatailsRef = useRef(null);
     const subDateRef = useRef(null)
     const [subPeriod , setSubPeriod] = useState("");
-    const [showInputBoxes , setShowInputBoxes] = useState(false)
     const dispatch = useDispatch();
-    const stateSubTask = useSelector(state => state.user.taskSection[props.setIndex].tasks[props.setSubIndex].subtasks)
+    const stateSubTask = useSelector(state => state.user.taskSection[props.setIndex].tasks[props.i].subtasks)
     const stateTasks = useSelector(state => state.user.taskSection[props.setIndex].tasks)
  
- useEffect(() =>{
-    if(props.showSubTask){
-        setShowInputBoxes(true);
-    }
- },[props.showSubTask])
+//  useEffect(() =>{
+//     if(props.showSubTask){
+//         setShowInputBoxes(true);
+//     }
+//  },[props.showSubTask])
  
     const handleSubmit =(e, id) =>{
 
@@ -55,8 +54,9 @@ const SubTask = (props) => {
         value : insertObj
      }));
 
-    setShowInputBoxes(false)
-    props.setShowSubTask(false); 
+    props.setShowInputBoxes(false)
+    // props.setShowSubTask(false);
+   setSubPeriod("");
     console.log("InsertObj :" , {
         index : props.setIndex , 
         subIndex : props.setSubIndex,
@@ -66,6 +66,12 @@ const SubTask = (props) => {
     
 
   }
+
+  useEffect(() =>{
+     if(props.showInputBoxes){
+      subTitleRef.current.focus();
+     }
+  },[ props.showInputBoxes])
  
  
  
@@ -77,7 +83,7 @@ const SubTask = (props) => {
   
           <div className={styles.subTaskCon}>
         {
-        showInputBoxes ?  <form onSubmit={(e) => handleSubmit(e, props.id)}  className={styles.TaskinputCon}>
+        props.showInputBoxes ?  <form onSubmit={(e) => handleSubmit(e, props.id)}  className={styles.TaskinputCon}>
                          <div>
                           <FaRegCircle />
                          </div>

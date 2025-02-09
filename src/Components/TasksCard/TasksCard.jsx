@@ -15,6 +15,7 @@ import { BiUpArrowAlt } from "react-icons/bi";
 import { MdOutlineSubdirectoryArrowRight } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import SubTask from '../Subtask/SubTask';
+import { MdCancel } from "react-icons/md";
 
 
 const TasksCard = (props) => {
@@ -26,11 +27,17 @@ const TasksCard = (props) => {
   const dateRef = useRef(null)
   const [period , setPeriod] = useState("");
   const [showMenu , setShowMenu] = useState(false);
-   const [showSubTask , setShowSubTask] = useState(false);
-  const stateSubTask = useSelector(state => state.user.taskSection[props.setIndex].subtasks)
+  //  const [showSubTask , setShowSubTask] = useState(false);
+  const stateSubTask = useSelector(state => state.user.taskSection[props.setIndex].tasks[props.i].subtasks)
   const stateTasks = useSelector(state => state.user.taskSection[props.setIndex].tasks);
   const [setSubIndex , setSetSubIndex] = useState(0);
+  const [showInputBoxes , setShowInputBoxes] = useState(false)
+  
    
+// console.log("stateSubTask : " , stateSubTask.length);
+ 
+
+
  const handleTickClick = (id,e) =>{
   e.stopPropagation()
    console.log("id:",id);
@@ -63,7 +70,8 @@ const TasksCard = (props) => {
     title : titleRef.current.value,
     details : detatailsRef.current.value,
     period : period,
-    starred : false
+    starred : false,
+    subtasks : [...stateSubTask]
   }
  dispatch(addEditedTasksInTasksArray({
   index : props.setIndex,
@@ -117,11 +125,18 @@ const TasksCard = (props) => {
     //   index : props.setIndex,
     //   value : insertSubObj
     // }))
-
-    setShowSubTask(true);
+    setShowInputBoxes(true);  
+    props.setShowSubTask(true);
     setShowMenu(false);
     setPeriod("")
  }
+
+ useEffect(() =>{
+    if(stateSubTask.length != 0){
+      props.setShowSubTask(true);
+    }
+ } , [stateSubTask.length != 0])
+ 
 
  const handleDeleteTask = (id,e) =>{
  e.stopPropagation()
@@ -135,6 +150,8 @@ const TasksCard = (props) => {
     setShowMenu(false)
  }
 
+ 
+
  const handleSubTaskSubmit = () =>{
 
  }
@@ -146,6 +163,10 @@ const TasksCard = (props) => {
   
   setSetSubIndex(findIndex)
   setShowMenu(true);
+ }
+
+ const setShowSubTaskFn =(setShowSubTask) =>{
+  setShowSubTask(false);
  }
 
   return (
@@ -177,9 +198,16 @@ const TasksCard = (props) => {
                         <MdOutlineRepeat style={{fontSize:"1.4rem"}} />
                        </div>
                        </div>
+                       {
+                         isEditmode ? 
+                         <MdCancel onClick={() => setIsEditMode(false)} className={styles.cancelBtn} />: null
+                       }
                        <button className={styles.submitBtn}>{isEditmode ? "Edit" : " Submit"}</button>
                   </form> :
-                   <div onClick={() => setIsEditMode(true)} className={styles.tasksCardCon}>
+                   <div onClick={() =>{ 
+                    setIsEditMode(true)
+                  
+                    }} className={styles.tasksCardCon}>
       <div    >
         {
           showTick ? <IoCheckmarkSharp cursor={"pointer"} className={styles.tick} onClick={(e) => handleTickClick(props.id,e)} onMouseLeave={() => setShowTick(false)}  fontSize={"2rem"}  color={"#2684FC"}/> :  <FaRegCircle cursor={"pointer"}   onMouseEnter={() => setShowTick(true)} fontSize={"1.4rem"} />
@@ -219,8 +247,11 @@ const TasksCard = (props) => {
   
   </div>
     }
-
-        <SubTask showSubTask={showSubTask} setShowSubTask={setShowSubTask} setSubIndex={setSubIndex} setPeriod ={setPeriod}  setIndex ={props.setIndex}  /> 
+{
+ props.showSubTask ? 
+  <SubTask i={props.i} setShowInputBoxes={setShowInputBoxes} showInputBoxes ={showInputBoxes} showSubTask={props.showSubTask} setShowSubTask={props.setShowSubTask} setSubIndex={setSubIndex} setPeriod ={setPeriod}  setIndex ={props.setIndex}  /> 
+ : null
+}
  
     </>
   )

@@ -15,6 +15,7 @@ const TaskCompletedCard = (props) => {
   
  const handleTickClick = (id) =>{
    console.log("id:",id);
+   props.setShowSubTask()
 dispatch(markAsUncompleted({
   index : props.setIndex,
   id : id

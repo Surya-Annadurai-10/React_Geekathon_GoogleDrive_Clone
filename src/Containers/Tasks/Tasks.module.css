@@ -4,7 +4,16 @@
     background-color: #2684FC;
      padding-left: 1rem;
      padding-top: 0.5rem;
-     position: relative;
+     position: sticky;
+     top: 0;
+     right: 0;
+     z-index: 70;
+}
+
+.tasksContainer{
+    width: 100%;
+    overflow-y: scroll;
+    height: 93vh;
 }
 
 .tasksCon h3 , h2{

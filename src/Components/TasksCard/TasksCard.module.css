@@ -189,6 +189,21 @@ align-items: flex-start;
     border-radius: 5px;
 }
 
+.cancelBtn{
+    position: absolute;
+    font-size: 1.3rem;
+    top: 10%;
+    right: 5%;
+    /* right: 10%;
+    bottom: 7%; */
+    /* padding: 0.3rem 0.8rem;
+    border: none;
+    font-size: 0.9rem;
+    border-radius: 5px; */
+}
+
+
+
 .submitBtn:hover{
     background-color: #006dfb;
     color: white;

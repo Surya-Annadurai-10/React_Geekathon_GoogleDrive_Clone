@@ -28,7 +28,7 @@ const SubTaskCard = (props) => {
   const [showMenu , setShowMenu] = useState(false);
    const [showSubTask , setShowSubTask] = useState(false);
   
-  console.log(props);
+  // console.log(props);
   
 
  const handleTickClick = (id,e) =>{

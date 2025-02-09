@@ -34,6 +34,7 @@ const Tasks = () => {
   const [showCreateCon , setShowCreateCon] = useState(false);
   const createInputRef = useRef(null);
   const stateTaskSection = useSelector(state => state.user.taskSection)
+   const [showSubTask , setShowSubTask] = useState(false);
 
   const handleSubmit = (e) =>{
 e.preventDefault()
@@ -77,8 +78,7 @@ console.log("------------------------");
       category : headTask,
       tasks : [],
       completed : [],
-      starred : [],
-      subtasks : []
+      starred : []
       
     }
 
@@ -101,11 +101,17 @@ console.log("------------------------");
       setSetIndex(findIndex);
   }
 
+  useEffect(() =>{
+     if(showInputBoxes){
+      titleRef.current.focus();
+     }
+  },[showInputBoxes])
+
 
 
   return (
     <>
-      <div style={{position: "relative"}}>
+      <div className={styles.tasksContainer} style={{position: "relative"}}>
         <header className={styles.tasksCon}>
           <h3>Tasks</h3>
           <div
@@ -214,8 +220,8 @@ console.log("------------------------");
         <section>
           <div>
             {
-               stateTasks.map(ele =>{
-                return <TasksCard setIndex={setIndex} key={ele.id} {...ele} />
+               stateTasks.map((ele , index) =>{
+                return <TasksCard showSubTask={showSubTask} setShowSubTask={setShowSubTask} setIndex={setIndex} i= {index} key={ele.id} {...ele} />
                })
             }
           </div>
@@ -233,7 +239,7 @@ console.log("------------------------");
           showCompletedList ? <div >
           {
             stateCompleted.map(ele =>{
-              return <TaskCompletedCard setIndex={setIndex} key={ele.id} {...ele} />
+              return <TaskCompletedCard setShowSubTask={setShowSubTask} setIndex={setIndex} key={ele.id} {...ele} />
             })
           }
         </div> : null
