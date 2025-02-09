@@ -15,11 +15,17 @@ const TaskCompletedCard = (props) => {
   
  const handleTickClick = (id) =>{
    console.log("id:",id);
-dispatch(markAsUncompleted(id));   
+dispatch(markAsUncompleted({
+  index : props.setIndex,
+  id : id
+}));   
  }
 
  const handleDelete = (id) => {
-    dispatch(deleteFromTasksCompleted(id));
+    dispatch(deleteFromTasksCompleted({
+      index : props.setIndex,
+      id : id
+    }));
  }
 
   return (

@@ -21,12 +21,19 @@ const initState = {
     completed : [],
     type : "listnotes"
   },
-   tasksObj : {
-     tasks : [],
-     pinned : [],
-     completed : [],
-     starred : []
-   }
+  taskSection : [ {
+        id : v4(),
+        category : "My Tasks",
+        tasks : [],
+        completed : [],
+        starred : [],
+      } ],
+  //  tasksObj : {
+  //    tasks : [],
+  //    pinned : [],
+  //    completed : [],
+  //    starred : []
+  //  }
  
 }
 
@@ -157,56 +164,76 @@ const userSlice = createSlice({
                 state.notes.unshift(findValue);
             
             },
+
+// --------------------------------------------
             addTasks(state , action) {
-               state.tasksObj.tasks.push(action.payload)
+               state.taskSection[action.payload.index].tasks.push(action.payload.value)
             },
             markAsCompleted(state ,action) {
-              let findIndex = state.tasksObj.tasks.findIndex(ele => ele.id == action.payload);
-              let find = state.tasksObj.tasks.find(ele => ele.id == action.payload);
+              let findIndex = state.taskSection[action.payload.index].tasks.findIndex(ele => ele.id == action.payload.id);
+              let find = state.taskSection[action.payload.index].tasks.find(ele => ele.id == action.payload.id);
 
 
-              state.tasksObj.tasks.splice(findIndex , 1);
-              state.tasksObj.completed.push(find);
+              state.taskSection[action.payload.index].tasks.splice(findIndex , 1);
+              state.taskSection[action.payload.index].completed.push(find);
             },
             deleteFromTasksCompleted(state , action){
-               let findIndex = state.tasksObj.completed.findIndex(ele => ele.id == action.payload);
-               state.tasksObj.completed.splice(findIndex , 1);
+               let findIndex = state.taskSection[action.payload.index].completed.findIndex(ele => ele.id == action.payload.id);
+               state.taskSection[action.payload.index].completed.splice(findIndex , 1);
             },
             markAsUncompleted(state , action){
-              const findIndex = state.tasksObj.completed.findIndex(ele => ele.id == action.payload)
-              const findValue = state.tasksObj.completed.find(ele => ele.id == action.payload)
+              const findIndex = state.taskSection[action.payload.index].completed.findIndex(ele => ele.id == action.payload.id)
+              const findValue = state.taskSection[action.payload.index].completed.find(ele => ele.id == action.payload.id)
 
-              state.tasksObj.completed.splice(findIndex , 1);
-              state.tasksObj.tasks.unshift(findValue);
+              state.taskSection[action.payload.index].completed.splice(findIndex , 1);
+              state.taskSection[action.payload.index].tasks.unshift(findValue);
             },
             addEditedTasksInTasksArray (state , action){
-            let findIndex = state.tasksObj.tasks.findIndex(ele => ele.id == action.payload.id);
-            state.tasksObj.tasks.splice(findIndex , 1, action.payload)
+            let findIndex = state.taskSection[action.payload.index].tasks.findIndex(ele => ele.id == action.payload.value.id);
+            state.taskSection[action.payload.index].tasks.splice(findIndex , 1, action.payload.value)
             },
             addInStarred(state ,action){
-              let findValue = state.tasksObj.tasks.find(ele => ele.id == action.payload);
-              let findIndex = state.tasksObj.tasks.findIndex(ele => ele.id == action.payload);
+              let findValue = state.taskSection[action.payload.index].tasks.find(ele => ele.id == action.payload.id);
+              let findIndex = state.taskSection[action.payload.index].tasks.findIndex(ele => ele.id == action.payload.id);
                  let newObj = {
                   ...findValue , 
                   starred : true
                  }
 
-                 state.tasksObj.tasks.splice(findIndex , 1, newObj);
+                 state.taskSection[action.payload.index].tasks.splice(findIndex , 1, newObj);
               
-              state.tasksObj.starred.push(newObj);
+              state.taskSection[action.payload.index].starred.push(newObj);
             },
             unStarTheTask(state , action){
-              let findIndex = state.tasksObj.starred.findIndex(ele => ele.id == action.payload);
-              let findValue = state.tasksObj.starred.find(ele => ele.id == action.payload);
+              let findIndex = state.taskSection[action.payload.index].starred.findIndex(ele => ele.id == action.payload.id);
+              let findValue = state.taskSection[action.payload.index].starred.find(ele => ele.id == action.payload.id);
               let newObj = {
                 ...findValue , 
                 starred : false
               }
 
-              let findIndexInTasks = state.tasksObj.tasks.findIndex(ele => ele.id == action.payload);
+              let findIndexInTasks = state.taskSection[action.payload.index].tasks.findIndex(ele => ele.id == action.payload.id);
 
-              state.tasksObj.tasks.splice(findIndexInTasks , 1, newObj)
-              state.tasksObj.starred.splice(findIndex , 1 );
+              state.taskSection[action.payload.index].tasks.splice(findIndexInTasks , 1, newObj)
+              state.taskSection[action.payload.index].starred.splice(findIndex , 1 );
+            },
+            setTaskCategoryObjInTaskSection(state , action){
+               state.taskSection.push(action.payload);
+            },
+            deleteFromTasks(state,action){
+              let findIndex = state.taskSection[action.payload.index].tasks.findIndex(ele => ele.id == action.payload.id)
+             state.taskSection[action.payload.index].tasks.splice(findIndex , 1)
+           
+            },
+            moveToTopInTask(state, action){
+              let findIndex = state.taskSection[action.payload.index].tasks.findIndex(ele => ele.id == action.payload.id);
+              let findValue = state.taskSection[action.payload.index].tasks.find(ele => ele.id == action.payload.id);
+              
+              state.taskSection[action.payload.index].tasks.splice(findIndex , 1);
+              state.taskSection[action.payload.index].tasks.unshift(findValue );
+            },
+            addSubTasks(state ,action){
+              state.taskSection[action.payload.index].tasks[action.payload.subIndex].subtasks.push(action.payload.value);
             }
 
 
@@ -215,4 +242,4 @@ const userSlice = createSlice({
 console.log(initState.bin);
 
 export const userReducers = userSlice.reducer;
-export const {addUser,unStarTheTask,addInStarred,addEditedTasksInTasksArray,markAsUncompleted,deleteFromTasksCompleted,markAsCompleted,addTasks,unPinListNotes,addInPinnedArray,replaceEditedListNoteData,resetEditableValueInCompletedAndIncomplete,deleteListNotesFromNotesArray,addListNotesInNotesArray,markAsIncompleteAndShift,addInCompletedListNotes,deleteListNote,addInListNotes,replaceEditedDataInPinned,deleteInPinned,unPinData,collectInPinned,replaceEditedData,deleteNotes,collectNotesData,unstarData,spreadDataStarred,updateIsFavInFiles,starredData,removeItemFromBin,spreadDataBin,setDeletedInBin,addInFiles,spreadData,setShowNotification,setShowUploading} = userSlice.actions;
+export const {addUser,addSubTasks,moveToTopInTask,deleteFromTasks,setTaskCategoryObjInTaskSection,unStarTheTask,addInStarred,addEditedTasksInTasksArray,markAsUncompleted,deleteFromTasksCompleted,markAsCompleted,addTasks,unPinListNotes,addInPinnedArray,replaceEditedListNoteData,resetEditableValueInCompletedAndIncomplete,deleteListNotesFromNotesArray,addListNotesInNotesArray,markAsIncompleteAndShift,addInCompletedListNotes,deleteListNote,addInListNotes,replaceEditedDataInPinned,deleteInPinned,unPinData,collectInPinned,replaceEditedData,deleteNotes,collectNotesData,unstarData,spreadDataStarred,updateIsFavInFiles,starredData,removeItemFromBin,spreadDataBin,setDeletedInBin,addInFiles,spreadData,setShowNotification,setShowUploading} = userSlice.actions;
