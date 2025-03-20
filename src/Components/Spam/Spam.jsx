@@ -21,7 +21,7 @@ const Spam = () => {
           <div className={styles.dataCon}>
             <img src="https://img.freepik.com/premium-vector/spam-isolated-cartoon-vector-illustrations_107173-59462.jpg" alt="" />
             <h2>Your spam is empty</h2>
-            <p>Items in sapm won't appear anywhere in Drive. Items are permanently removed</p>
+            <p>Items in spam won't appear anywhere in Drive. Items are permanently removed</p>
              <p>after 30 days.</p>
           </div>
           </div>

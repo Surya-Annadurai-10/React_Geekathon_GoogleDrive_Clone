@@ -223,7 +223,7 @@ const TasksCard = (props) => {
      
       
       {
-        props.starred ? <IoMdStar onClick={(e) => handleUnstar(props.id, e)} cursor={"pointer"} fontSize={"1.3rem"} /> :  <IoIosStarOutline onClick={(e) => handleStarred(props.id , e)} cursor={"pointer"} color={"rgb(82, 82, 82)"} fontSize={"1.3rem"}/>
+        props.starred ? <IoMdStar style={{visibility : props.starred ? "visible" : null }} onClick={(e) => handleUnstar(props.id, e)} cursor={"pointer"} fontSize={"1.3rem"} /> :  <IoIosStarOutline onClick={(e) => handleStarred(props.id , e)} cursor={"pointer"} color={"rgb(82, 82, 82)"} fontSize={"1.3rem"}/>
       }
       </div>
       {

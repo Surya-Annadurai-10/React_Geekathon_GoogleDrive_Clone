@@ -5,6 +5,10 @@ import { useSelector } from 'react-redux';
 import { RiHardDrive3Line } from "react-icons/ri";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { IoMdVideocam } from "react-icons/io";
+import { FaFileAudio, FaLinesLeaning } from "react-icons/fa6";
+import { IoArchiveSharp } from "react-icons/io5";
+import { RiShieldFlashFill } from "react-icons/ri";
+import { BiSolidFilePdf } from "react-icons/bi";
 
 
 const Cards = (props) => {
@@ -13,7 +17,8 @@ const Cards = (props) => {
     // console.log(stateData);
 
 
-    const handleClick = () =>{
+    const handleClick = (e) =>{
+      e.stopPropagation()
       props.setShowOptions(true);
       
       props.setDownloadedContent(props.obj);
@@ -26,6 +31,9 @@ const Cards = (props) => {
     let imageStr = props.type.includes("image")
     let videoStr = props.type.includes("video")
     let pdfStr = props.type.includes("pdf")
+    let archivesStr = props.type.includes("archives")
+    let AuidoStr = props.type.includes("audio")
+    let drawingsStr = props.type.includes("drawing")
     
     if(imageStr){
       // console.log(true);
@@ -40,23 +48,35 @@ const Cards = (props) => {
 
     if(pdfStr){
       console.log(false);
-      return   <img width={"25"} height={"25"}
-      src="https://www.freepngimg.com/thumb/google/66255-google-icons-docs-drive-computer-suite.png"
-      alt=""
-    />
+      return    <BiSolidFilePdf style={{color : "#EA4335", fontSize: "1.5rem"}} />
+    }
+
+    if(archivesStr){
+      console.log(false);
+      return    <IoArchiveSharp  style={{color : "#EA4335", fontSize: "1.5rem"}}/>
+    }
+
+    if(AuidoStr){
+      console.log(false);
+      return    <FaFileAudio style={{color : "#EA4335", fontSize: "1.5rem"}} />
+    }
+
+    if(drawingsStr){
+      console.log(false);
+      return   <RiShieldFlashFill style={{color : "#EA4335", fontSize: "1.5rem"}} />
     }
       
     }
 
   return (
     <>
-    <tr onClick={handleClick}  className={styles.cardCon}>
+    <tr onClick={(e) => handleClick(e)}  className={styles.cardCon}>
         <td>
             <div className={styles.nameData}>
             {
               findIcons() 
             }
-           <a href={props.imageURL} target='_blank'> <p>{props.name}</p></a>
+           <a onClick={(e) => e.stopPropagation()} href={props.imageURL} download={props.imageURL} target='_blank'> <p>{props.name}</p></a>
             </div>
         </td>
         <td className={styles.reasoned}>You opened at 22:58</td>

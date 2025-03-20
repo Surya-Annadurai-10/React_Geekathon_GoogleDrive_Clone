@@ -10,9 +10,10 @@ import { MdOutlineCreateNewFolder } from "react-icons/md";
 import { TbFileUpload } from "react-icons/tb";
 import { MdDriveFolderUpload } from "react-icons/md";
 import JSZip from 'jszip';
-import { collection,addDoc, getDocs, setDoc } from 'firebase/firestore';
+import { collection,addDoc, getDocs, setDoc, doc } from 'firebase/firestore';
 import { firestore } from '../../firebase';
 import Notification from '../Notification/Notification';
+import { toast } from 'react-toastify';
 
 
 
@@ -64,7 +65,7 @@ const AddNewPopUp = (props) => {
           // getting the url of the image
           const url = await getDownloadURL(res.ref)
           console.log("url" , url);
-          
+          const id =  v4();
            const reduxObj = {
             name : imageUpload.name,
             size: imageUpload.size,
@@ -73,17 +74,39 @@ const AddNewPopUp = (props) => {
             lastModified : imageUpload.lastModified,
             imageURL : url,
             isFav : false,
-            id : v4()
+            id :id
            }
           //  console.log(reduxObj);
            dispatch(addInFiles(reduxObj));
            const fileDataRef = collection(firestore , "files");
-           await addDoc(fileDataRef , reduxObj);
-         
+          //  await addDoc(fileDataRef , reduxObj);
+           await setDoc(doc(firestore, "files",id), reduxObj);
             dispatch(setShowUploading(false));
             dispatch(setShowNotification(true));
+            toast.success('File Uploaded Successfully !', {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: false,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+              // transition: Bounce,
+              });
       } catch (error) {
         console.log("Error while uploading the file :" , error)
+        toast.error('Error while uploading the file', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          // transition: Bounce,
+          });
       }
 
       setGetData(true)
@@ -180,7 +203,7 @@ useEffect(() =>{
      }
 
    }catch (error){
-          console.log("error :" , error);
+      console.log("error :" , error);
           
    }
  }
@@ -196,13 +219,13 @@ useEffect(() =>{
 
        <div onClick={() => {props.setShowNewAdd(false)}} className={styles.myDriveWrapper}>
        <div ref={boxRef} onClick={(e) => handleStop(e)}  className={styles.myDriveContents}>
-                  <div className={styles.topOpt}>
+                  {/* <div className={styles.topOpt}>
                   <div >
                   <MdOutlineCreateNewFolder className={styles.icons} />
                       <p>New Folder</p>
                     </div>
                     <p style={{fontSize: "0.8rem"}}>Alt+C then F</p>
-                  </div>
+                  </div> */}
                   <div className={styles.folders}>
                     <div onClick={handleFileSubmit} className={styles.topOpt}>
                       <div >
@@ -211,7 +234,7 @@ useEffect(() =>{
                       </div>
                       <p style={{fontSize: "0.8rem"}}>Alt+C then U</p>
                     </div>
-                    <div onClick={handleFolderSubmit} className={styles.topOpt}>
+                    {/* <div onClick={handleFolderSubmit} className={styles.topOpt}>
                       <div>
                         <MdDriveFolderUpload className={styles.icons} />
                         <p style={{fontSize: "1rem"}}>Folder upload</p>
@@ -264,7 +287,7 @@ useEffect(() =>{
                       <div className={styles.box}></div>
                       <p>More</p>
                     </div>
-                    <FaCaretRight />
+                    <FaCaretRight /> */}
                   </div>
         </div>
        </div>

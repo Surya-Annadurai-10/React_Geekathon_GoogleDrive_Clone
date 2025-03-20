@@ -150,7 +150,7 @@ align-items: flex-start;
 
 .dateInput{
     width: 17px;
-    height: 1px;
+    height: 17px;
     border: none;
     background-color: transparent;
     border-radius: 50%;
@@ -203,6 +203,7 @@ align-items: flex-start;
     justify-content: center;
     gap: 0.3rem;
     font-size: 0.7rem;
+    /* background-color: red; */
 }
 
 .periodContent p{
@@ -259,4 +260,11 @@ align-items: flex-start;
 
 .periodText{
     font-size: 0.7rem;
+}
+
+.cancelBtn{
+    position: absolute;
+    right:5%;
+    top: 10%;
+    font-size: 1.3rem;
 }

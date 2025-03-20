@@ -19,3 +19,7 @@
     align-items: center;
     /* background-color: red; */
 }
+
+@media screen and (max-width : 640px) {
+   
+}

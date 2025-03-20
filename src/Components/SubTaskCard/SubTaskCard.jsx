@@ -5,7 +5,7 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { IoIosStarOutline } from "react-icons/io";
 import { IoCheckmarkSharp } from "react-icons/io5";
 import { useDispatch, useSelector } from 'react-redux';
-import { addEditedTasksInTasksArray, addInStarred, deleteFromTasks, markAsCompleted, moveToTopInTask, unStarTheTask } from '../../slices/userSlice';
+import { addEditedTasksInTasksArray, addInStarred, addSubTaskInStarred, deleteFromTasks, deleteSubTask, markAsCompleted, markSubTaskAsCompleted, moveToTopInTask, replaceEditedTasksInRespectiveSubTaskArray, unIndentSubTask, unStarTheSubTask, unStarTheTask } from '../../slices/userSlice';
 import { CgDetailsMore } from "react-icons/cg";
 import { MdOutlineRepeat } from "react-icons/md";
 // import { FaRegCircle } from "react-icons/fa";
@@ -15,16 +15,18 @@ import { BiUpArrowAlt } from "react-icons/bi";
 import { MdOutlineSubdirectoryArrowRight } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import SubTask from '../Subtask/SubTask';
+import { MdCancel } from "react-icons/md";
+
 
 
 const SubTaskCard = (props) => {
  const [showTick , setShowTick] = useState(false);
   const dispatch= useDispatch();
-  const [isEditmode , setIsEditMode] = useState(false); 
-  const titleRef = useRef(null);
-  const detatailsRef = useRef(null);
-  const dateRef = useRef(null)
-  const [period , setPeriod] = useState("");
+  const [isSubTaskEditmode , setIsSubTaskEditMode] = useState(false); 
+  const subTasktitleRef = useRef(null);
+  const subTaskDetatailsRef = useRef(null);
+  const subTaskDateRef = useRef(null)
+  const [subPeriod , setSubPeriod] = useState(props.subPeriod)
   const [showMenu , setShowMenu] = useState(false);
    const [showSubTask , setShowSubTask] = useState(false);
   
@@ -34,87 +36,115 @@ const SubTaskCard = (props) => {
  const handleTickClick = (id,e) =>{
   e.stopPropagation()
    console.log("id:",id);
-   dispatch(markAsCompleted({
+   dispatch(markSubTaskAsCompleted({
     index : props.setIndex,
-    subIndex : props.setSubIndex,
-    id : id
+    taskCardIndex : props.taskCardIndex, 
+    subTaskCardIndex : props.subTaskCardIndex
    }));
    
  }
 
  useEffect(() =>{
-    if(isEditmode){
-      titleRef.current.value = props.title,
-      detatailsRef.current.value = props.details
-      setPeriod(props.period);
+    if(isSubTaskEditmode){
+      subTasktitleRef.current.value = props.title,
+   
+      subTaskDetatailsRef.current.value = props.details
+      setSubPeriod(subPeriod);
+      subTasktitleRef.current.select();
+      // subTaskDetatailsRef.current.select();
+
     }
- },[isEditmode])
+ },[isSubTaskEditmode])
 
  const handleSubmit = (propsId , e) => {
   e.preventDefault();
   const taskContent = {
     id : propsId,
-    title : titleRef.current.value,
-    details : detatailsRef.current.value,
-    period : period,
+    title : subTasktitleRef.current.value,
+    details : subTaskDetatailsRef.current.value,
+    subPeriod : subPeriod,
     starred : false
   }
- dispatch(addEditedTasksInTasksArray({
-    index : props.setIndex,
-    subIndex : props.setSubIndex,
-  value : taskContent
- }))
-  setPeriod("");
-  detatailsRef.current.value= "";
-  titleRef.current.value= "";
-  setIsEditMode(false);
+
+// console.log("taskContent :" , {
+//       index : props.setIndex,
+//       taskCardIndex : props.taskCardIndex,
+//       subTaskCardIndex : props.subTaskCardIndex,
+//     value : taskContent
+//    });
+
+
+console.log("taskContent",taskContent);
+
+    dispatch(replaceEditedTasksInRespectiveSubTaskArray({
+      index : props.setIndex,
+      taskCardIndex : props.taskCardIndex,
+      subTaskCardIndex : props.subTaskCardIndex,
+      value : taskContent
+     }))
+
+//  setSubPeriod("");
+ subTaskDetatailsRef.current.value= "";
+ subTasktitleRef.current.value= "";
+  setIsSubTaskEditMode(false);
  }
 
  const handleStarred =(id,e) => {
   e.stopPropagation();
-   dispatch(addInStarred({
+   dispatch(addSubTaskInStarred({
     index : props.setIndex,
-      subIndex : props.setSubIndex,
+    taskCardIndex : props.taskCardIndex, 
     id : id
    }))
  }
 
  const handleUnstar =(id,e) =>{
   e.stopPropagation();
-  dispatch(unStarTheTask({
+  dispatch(unStarTheSubTask({
     index : props.setIndex,
-    subIndex : props.setSubIndex,
+    taskCardIndex : props.taskCardIndex, 
     id : id
    }))
  }
  
- const handleMoveToTop = (id,e) =>{
-  e.stopPropagation()
-    console.log("id:" , id);
-    dispatch(moveToTopInTask({
-      id : id,
-      index : props.setIndex,
-      subIndex : props.setSubIndex
-    }))
-    setShowMenu(false)
+//  const handleMoveToTop = (id,e) =>{
+//   e.stopPropagation()
+//     console.log("id:" , id);
+//     dispatch(moveToTopInTask({
+//       id : id,
+//       index : props.setIndex,
+//       subIndex : props.setSubIndex
+//     }))
+//     setShowMenu(false)
     
- }
+//  }
 
- const handleAddSubTask = (id,e) =>{
+ const handleUnindent = (id,e) =>{
  e.stopPropagation()
-    console.log("id:" , id);
-    setShowSubTask(true);
+ dispatch(unIndentSubTask({
+  index : props.setIndex,
+  taskCardIndex : props.taskCardIndex, 
+  id : id
+ }))
+
+ console.log("unintend" , {
+  index : props.setIndex,
+  taskCardIndex : props.taskCardIndex, 
+  id : id
+ });
     setShowMenu(false)
+ 
  }
 
  const handleDeleteTask = (id,e) =>{
  e.stopPropagation()
     console.log("id:" , id);
 
-     dispatch(deleteFromTasks({
+     dispatch(deleteSubTask({
       id : id,
       index : props.setIndex,
-      subIndex : props.setSubIndex
+      taskCardIndex : props.taskCardIndex, 
+      subTaskCardIndex : props.subTaskCardIndex
      }))
 
     setShowMenu(false)
@@ -127,35 +157,44 @@ const SubTaskCard = (props) => {
   return (
     <>
     {
-      isEditmode ?  <form onSubmit={(e) => handleSubmit(props.id,e)}  className={styles.TaskinputCon}>
+      isSubTaskEditmode ?  <form onSubmit={(e) => handleSubmit(props.id,e)}  className={styles.TaskinputCon}>
                        <div>
                         <FaRegCircle />
                        </div>
                        <div className={styles.realInputBox}>
                        <div>
-                        <input ref={titleRef} className={styles.titleBox} type="text"  placeholder={"Title"}/>
+                        <input ref={subTasktitleRef} className={styles.titleBox} type="text"  placeholder={"Title"}/>
                         <div className={styles.detailsCon}>
                         <CgDetailsMore  style={{fontSize:"1.2rem"}}/>
-                        <textarea ref={detatailsRef}  className={styles.textareaBox} name="" id="" placeholder="Details" />
+                        <textarea ref={subTaskDetatailsRef}  className={styles.textareaBox} name="" id="" placeholder="Details" />
                         </div>
                        </div>
                        <div className={styles.sessionsCon}>
                        {
-                        period ? <div className={styles.periodContent}>
-                          <p style={{color : period == "Today" ? "#3579D7" : "rgb(59, 59, 59)"}}>{period}</p>
-                          <MdClear onClick={() => setPeriod("")} fontSize={"1.1rem"} color="rgb(30, 30, 130)"/>
+                        subPeriod ? <div className={styles.periodContent}>
+                          <p style={{color : subPeriod == "Today" ? "#3579D7" : "rgb(59, 59, 59)"}}>{subPeriod}</p>
+                          <MdClear onClick={() => setSubPeriod("")} fontSize={"1.1rem"} color="rgb(30, 30, 130)"/>
                         </div> :  <div className={styles.sessions}>
-                        <p onClick={() => setPeriod("Today")}>Today</p>
-                        <p onClick={() => setPeriod("Tomorrow")}>Tomorrow</p>
-                        <input onChange={(e) => setPeriod((new Date(e.target.value) + "").substring(0,10))}  type="date" className={styles.dateInput}/>
+                        <p onClick={() => setSubPeriod("Today")}>Today</p>
+                        <p onClick={() => setSubPeriod("Tomorrow")}>Tomorrow</p>
+                        <input onChange={(e) => setSubPeriod((new Date(e.target.value) + "").substring(0,10))}  type="date" className={styles.dateInput}/>
                       </div>
                        }
                         <MdOutlineRepeat style={{fontSize:"1.2rem"}} />
                        </div>
                        </div>
-                       <button className={styles.submitBtn}>{isEditmode ? "Edit" : " Submit"}</button>
+                         {
+                            isSubTaskEditmode ? 
+                                <MdCancel onClick={() => setIsSubTaskEditMode(false)} className={styles.cancelBtn} />: null
+                         }
+                       <button className={styles.submitBtn}>{isSubTaskEditmode ? "Edit" : " Submit"}</button>
                   </form> :
-                   <div onClick={() => setIsEditMode(true)} className={styles.tasksCardCon}>
+                   <div onClick={() => {
+                    setIsSubTaskEditMode(true)
+                    // console.log("setIndex :" , props.setIndex);
+                    // console.log("setSubIndex :" , props.index);
+                    
+                    }} className={styles.tasksCardCon}>
       <div    >
         {
           showTick ? <IoCheckmarkSharp cursor={"pointer"} className={styles.tick} onClick={(e) => handleTickClick(props.id,e)} onMouseLeave={() => setShowTick(false)}  fontSize={"1.5rem"}  color={"#2684FC"}/> :  <FaRegCircle cursor={"pointer"}   onMouseEnter={() => setShowTick(true)} fontSize={"1rem"} />
@@ -164,7 +203,7 @@ const SubTaskCard = (props) => {
       <div className={styles.contentCon}>
           <h4>{props.title}</h4>
           <p>{props.details}</p>
-          <p style={{color : props.period == "Today" ? "#2684FC" : null , border:props.period == "Today" ? "1px solid #2684FC" : null , }} className={styles.periodText}>{props.period}</p>
+          <p style={{color :props.subPeriod == "Today" ? "#2684FC" : null , border: props.subPeriod == "Today" ? "1px solid #2684FC" : null , }} className={styles.periodText}>{props.subPeriod}</p>
       </div>
       <div className={styles.icons}>
       <BsThreeDotsVertical onClick={(e) => {
@@ -174,18 +213,18 @@ const SubTaskCard = (props) => {
      
       
       {
-        props.starred ? <IoMdStar onClick={(e) => handleUnstar(props.id, e)} cursor={"pointer"} fontSize={"1.1rem"} /> :  <IoIosStarOutline onClick={(e) => handleStarred(props.id , e)} cursor={"pointer"} color={"rgb(82, 82, 82)"} fontSize={"1.1rem"}/>
+        props.starred ? <IoMdStar style={{visibility : props.starred ? "visible" : null }} onClick={(e) => handleUnstar(props.id, e)} cursor={"pointer"} fontSize={"1.1rem"} /> :  <IoIosStarOutline onClick={(e) => handleStarred(props.id , e)} cursor={"pointer"} color={"rgb(82, 82, 82)"} fontSize={"1.1rem"}/>
       }
       </div>
       {
         showMenu ? <div className={styles.menuCon}>
-        <div onClick={(e) => handleMoveToTop(props.id,e)}>
+        {/* <div onClick={(e) => handleMoveToTop(props.id,e)}>
         <BiUpArrowAlt fontSize={"1.2rem"} color={"#353535"} />
          <p>Move to top</p>
-        </div>
-        <div onClick={(e) => handleAddSubTask(props.id,e)}>
-        <MdOutlineSubdirectoryArrowRight  fontSize={"1.2rem"} color={"#353535"}/>
-         <p>Add a subtask</p>
+        </div> */}
+        <div onClick={(e) => handleUnindent(props.id,e)}>
+        <MdOutlineSubdirectoryArrowRight style={{transform : "rotate(2700deg)"}}  fontSize={"1.2rem"} color={"#353535"}/>
+         <p>Unindent</p>
         </div>
         <div onClick={(e) => handleDeleteTask(props.id,e)}>
         <RiDeleteBin6Line fontSize={"1.2rem"} color={"#353535"} />
@@ -199,10 +238,10 @@ const SubTaskCard = (props) => {
   </div>
     }
 
-      {
+      {/* {
         showSubTask ? 
         <SubTask setIndex={props.setIndex}  /> : null 
-      }
+      } */}
     </>
   )
 }

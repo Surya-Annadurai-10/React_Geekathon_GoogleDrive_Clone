@@ -183,7 +183,7 @@ if(isEditMode){
 
  <div>
   {
-    stateNotes.length == 0 ?
+    stateNotes.length == 0 && statePinned.length == 0  ?
     <motion.div 
        initial={{
         scale : 0

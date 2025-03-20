@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import styles  from './Home.module.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { firestore } from '../../firebase'
-import { collection, getDocs,deleteDoc, addDoc, doc } from 'firebase/firestore'
+import { collection, getDocs,deleteDoc, addDoc, doc, setDoc } from 'firebase/firestore'
 import { storage } from '../../firebase'
-import { deleteObject, ref, uploadBytes } from 'firebase/storage'
+import { deleteObject, getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import {  setDeletedInBin, spreadData, spreadDataBin, spreadDataStarred } from '../../slices/userSlice'
  import loadingGif from "../../assets/loading.gif"
  import { IoMdCheckmark } from "react-icons/io";
@@ -21,6 +21,8 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { IoMdLink } from "react-icons/io";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import LayoutCon from '../LayoutCon/LayoutCon'
+import { v4 } from 'uuid'
+import { toast } from 'react-toastify'
 
 
 
@@ -43,6 +45,8 @@ const Home = () => {
   const starredData = collection(firestore , "starred")
 
   // console.log("mounted");
+  console.log("downloaded Contet" , downloadedContent);
+  
   
   useEffect(() =>{
     
@@ -90,23 +94,34 @@ const Home = () => {
    const handleDelete = (id) =>{
     console.log("id:" , id);
     
-    name(id)
-  async function name(id) {
+    name()
+  async function name() {
     try {
       const deleteDocRef = doc(firestore,"files" , id) 
       const deleteInFilesDataRef = ref(storage , `files/${downloadedContent.name}`);
       const movedToBinDataRef = ref(storage , `bin/${downloadedContent.name}`);
- 
+     
     const deletedData = {
       dateBinned : new Date().getTime(),
       ...downloadedContent
       
     }
     
-      await addDoc(binData , deletedData);
-      alert ("File moved to bin successfully");
+      // await addDoc(binData , deletedData);
+      await setDoc(doc(firestore , "bin",id),deletedData)
+      toast.success("Deleted Successfully !", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        // transition: "easeInOut",
+      });
       await  deleteDoc(deleteDocRef);
-     alert("File deleted in files database successfully");
+    //  alert("File deleted in files database successfully");
 
       const deletedItem = stateData.find((ele) => ele.id == downloadedContent.id)
       const deletedItemId = stateData.findIndex((ele) => ele.id == downloadedContent.id)
@@ -125,7 +140,17 @@ const Home = () => {
        
      } catch (error) {
       console.log("Error :",error);
-      
+      toast.error("Error occured while deleting!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        // transition: "easeInOut",
+      });
      }
   }
        
@@ -169,6 +194,75 @@ const Home = () => {
      
    },[starredBaseData])
 
+   const handleCopyLink = async () => {
+       try {
+         await navigator.clipboard.writeText(downloadedContent.imageURL);
+         toast.success("Link Copied !", {
+           position: "top-right",
+           autoClose: 3000,
+           hideProgressBar: false,
+           closeOnClick: true,
+           pauseOnHover: true,
+           draggable: true,
+           progress: undefined,
+           theme: "light",
+           // transition: "easeInOut",
+         });
+       } catch (error) {
+         toast.error("Error while Copying!", {
+           position: "top-right",
+           autoClose: 3000,
+           hideProgressBar: false,
+           closeOnClick: true,
+           pauseOnHover: true,
+           draggable: true,
+           progress: undefined,
+           theme: "light",
+           // transition: "easeInOut",
+         });
+       }
+     };
+   
+     const handleShare = async() =>{
+       try {
+         await navigator.share({
+           title: "Check this out!",
+           text: "please view It",
+           url: downloadedContent.imageURL,
+         })
+   
+       
+       } catch (error) {
+         toast.error("Error while Sharing!", {
+           position: "top-right",
+           autoClose: 3000,
+           hideProgressBar: false,
+           closeOnClick: true,
+           pauseOnHover: true,
+           draggable: true,
+           progress: undefined,
+           theme: "light",
+           // transition: "easeInOut",
+         });
+       }
+     }
+
+useEffect(() =>{
+  if(downloadedContent == true){
+     const setUrl = async() =>{
+        try {
+        const res = await getDownloadURL(ref(storage , `files/${downloadedContent.name}`))
+        console.log(res);
+        
+        } catch (error) {
+          
+        }
+     }
+
+     setUrl()
+  }
+},[downloadedContent])
+
   return (
    <>
       <div className={styles.homeCon}>
@@ -182,15 +276,33 @@ const Home = () => {
              </div>
         </div> : <>
       {
-        showOptions ?<div className={styles.optionsCon}>
-        <RxCross2 onClick={() =>setShowOptions(false)}  style={{ fontSize: "1.4rem" ,color:"1f1f1f"}} />
-        <p>1 selected</p>
-        <RiUserSharedLine   style={{ fontSize: "1.4rem" ,color:"1f1f1f"}}/>
-      <a href={"https://tse1.mm.bing.net/th?id=OIP.4XB8NF1awQyApnQDDmBmQwHaEo&pid=Api&P=0&h=180"} download>  <LuDownload   style={{ fontSize: "1.4rem" ,color:"1f1f1f"}}/></a>
-        <RiDeleteBin6Line onClick={() => handleDelete(downloadedContent.id)}  style={{ fontSize: "1.4rem" ,color:"1f1f1f"}}/>
-        <IoMdLink style={{ fontSize: "1.4rem" ,color:"1f1f1f"}} />
-        <BsThreeDotsVertical  style={{ fontSize: "1.4rem" ,color:"1f1f1f"}}/>
-        </div>
+        showOptions ?
+        <div className={styles.optionsCon}>
+                      <RxCross2
+                        onClick={() => setShowOptions(false)}
+                        style={{ fontSize: "1.4rem", color: "1f1f1f" }}
+                      />
+                      <p>1 selected</p>
+                      <RiUserSharedLine onClick={handleShare}  style={{ fontSize: "1.4rem" ,color:"1f1f1f"}}/>
+                      <a
+                        href={downloadedContent.imageURL}
+                        download
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <LuDownload style={{ fontSize: "1.4rem", color: "1f1f1f" }} />
+                      </a>
+      
+                      <RiDeleteBin6Line
+                        onClick={() => handleDelete(downloadedContent.id)}
+                        style={{ fontSize: "1.4rem", color: "1f1f1f" }}
+                      />
+                      <IoMdLink
+                        onClick={handleCopyLink}
+                        style={{ fontSize: "1.4rem", color: "1f1f1f" }}
+                      />
+                      {/* <BsThreeDotsVertical  style={{ fontSize: "1.4rem" ,color:"1f1f1f"}}/> */}
+                    </div>
         
         :  <div className={styles["suggested"]}>
         <FaChevronUp   />

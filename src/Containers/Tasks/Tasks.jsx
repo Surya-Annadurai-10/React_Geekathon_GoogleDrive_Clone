@@ -35,6 +35,8 @@ const Tasks = () => {
   const createInputRef = useRef(null);
   const stateTaskSection = useSelector(state => state.user.taskSection)
    const [showSubTask , setShowSubTask] = useState(false);
+   const [filterStarred , setFilterStarred] = useState(false);
+   const stateStarred = useSelector(state => state.user.taskSection[setIndex].starred)
 
   const handleSubmit = (e) =>{
 e.preventDefault()
@@ -127,11 +129,14 @@ console.log("------------------------");
               onMouseLeave={() => setShowOptions(false)}
               className={styles.optionCon}
             >
-              <div onClick={() => setShowOptions(false)}>
+              <div onClick={() => {
+                setFilterStarred(!filterStarred);
+                setShowOptions(false)
+                }}>
                 <IoIosStarOutline
                   style={{ fontSize: " 1.5rem", color: "#333437" }}
                 />
-                <p>Starred</p>
+                <p>{filterStarred ? "Remove starred filter" :"Starred"}</p>
               </div>
 
               <div>
@@ -218,8 +223,12 @@ console.log("------------------------");
         </main>
 
         <section>
+          
           <div>
             {
+              filterStarred ?  stateStarred.map((ele , index) =>{
+                return <TasksCard showSubTask={showSubTask} setShowSubTask={setShowSubTask} setIndex={setIndex} i= {index} key={ele.id} {...ele} />
+               }) : 
                stateTasks.map((ele , index) =>{
                 return <TasksCard showSubTask={showSubTask} setShowSubTask={setShowSubTask} setIndex={setIndex} i= {index} key={ele.id} {...ele} />
                })

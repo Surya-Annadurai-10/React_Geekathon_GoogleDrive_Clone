@@ -1,7 +1,10 @@
 .cardCon{
-    border-bottom: 1px solid grey;
+    /* border-bottom: 1px solid grey; */
     text-align: left;
-    width: 100%;
+    width: 98%;
+    /* margin: auto; */
+    /* background: blue; */
+    /* padding-inline: 50px; */
     height: 50px;
 }
 
@@ -14,7 +17,7 @@
 .nameData{
     display: flex;
     align-items: center;
-   
+    padding-inline: 10px;
     gap: 0.3rem;
 }
 
@@ -29,8 +32,9 @@
     padding: 1rem;
     justify-content: flex-start;
     /* background-color: yellow; */
-    /* width: 100%;
-    height: 100%; */
+    width: 100%;
+    height: 100%;
+    
 }
 
 
@@ -123,4 +127,17 @@
 .optionsCon > *:hover{
     background-color: rgb(226, 226, 226);
     cursor: pointer;
+}
+.inputCon{
+    display: flex;
+    align-items: center;
+    justify-content:space-between;
+    width: 100%;
+    height: 30px;
+    /* background: red; */
+}
+
+.inputCon input {
+    width: 80%;
+    height: 100%;
 }

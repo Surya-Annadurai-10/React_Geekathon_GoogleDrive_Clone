@@ -45,7 +45,7 @@ const SubTask = (props) => {
         id : v4(),
         title : subTitleRef.current.value,
         details :  subDetatailsRef.current.value,
-        period : subPeriod,
+        subPeriod : subPeriod,
         starred : false
       }
      dispatch(addSubTasks({
@@ -115,8 +115,8 @@ const SubTask = (props) => {
         <section>
           <div>
             {
-               stateSubTask.map(ele =>{
-                return <SubTaskCard setIndex={props.setIndex} setSubIndex={props.setSubIndex} key={ele.id} {...ele} />
+               stateSubTask.map((ele, index) =>{
+                return <SubTaskCard setIndex={props.setIndex} taskCardIndex={props.i} subTaskCardIndex = {index} setSubIndex={props.setSubIndex} key={ele.id} {...ele} />
                })
             }
           </div>

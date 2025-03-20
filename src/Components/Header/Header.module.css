@@ -19,6 +19,8 @@ background-color:#F8FAFD;
     justify-content: flex-start;
 }
 
+
+
 .left_header img{
     width: 60px;
     height: 60px;
@@ -53,6 +55,8 @@ background-color:#F8FAFD;
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    position: relative;
+    /* background-color: red; */
 }
 
 .inputBox{
@@ -61,17 +65,20 @@ background-color:#F8FAFD;
     border-radius: 30px;
     /* background-color: grey; */
     background-color: #E9EEF6;
+    /* background-color: red; */
+
     display: flex;
     gap: 0.5rem;
     align-items: center;
     justify-content: center;
+    position: relative;
 }
 
 
 
 
 .inputBox input{
-    width: 78%;
+    width:85%;
     height: 80%;
     /* padding: 1rem; */
     font-size: 1.1rem;
@@ -126,4 +133,161 @@ background-color:#F8FAFD;
     height: 100%;
     padding-right: 1.5rem;
     /* background-color: yellow; */
+}
+
+
+.searchContent{
+   position: absolute;
+   left: 0;
+   top: 100%;
+   z-index: 90;
+   width: 100%;
+   padding: 0.3rem;
+   border-bottom-right-radius: 10px;
+   border-bottom-left-radius: 10px;
+   border-top-left-radius: 10px;
+   border-top-right-radius: 10px;
+   background-color: #E9EEF6;
+   box-shadow: 1px 0px 10px solid grey;
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   flex-direction: column;
+
+}
+
+.linkWrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+}
+
+.nameBox{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.nameData{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    padding-inline: 10px;
+    gap: 0.3rem;
+   padding: 1rem;
+
+}
+
+.nameData p,h1{
+    color: rgb(91, 91, 91);
+}
+
+.nameData a {
+    text-decoration: none;
+    color: black;
+}
+
+.nameData:hover{
+   background-color: #d3e1f7;
+}
+
+.nameData:hover p,h1{
+    color: #000000;
+ }
+
+ .left_header h1{
+    font-weight: 400;
+}
+
+.menu{
+    display: none;
+}
+
+@media screen and (max-width : 640px){
+    .left_header h1{
+        display: none;
+    }
+
+    .left_header img{
+        width: 40px;
+        height: 40px;
+    }
+    .header{
+        gap: 0;
+    }
+
+   
+
+    .left_header{
+        /* background-color: red; */
+        margin: 0;
+        width: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-left: 1rem;
+        gap: 1rem;
+
+
+    }
+
+    .middle_header{
+        width: 45%;
+        /* background: red; */
+    }
+
+    .middle_header .inputBox{
+        width: 100%;
+    }
+
+    .middle_header .inputBox input::placeholder{
+       font-size: 0.9rem;
+    }
+
+    .menu{
+        display: block;
+        font-size: 2rem;
+        /* background-color: red; */
+    }
+
+    .right_header{
+        gap: 0;
+    }
+
+  .rightIcons:nth-child(1),
+    .rightIcons:nth-child(2),
+        .rightIcons:nth-child(4){
+    display: none;
+   }
+
+   
+  .searchContent{
+    width: 380px;
+    left: -63%;
+    top:110%;
+  
+  }
+
+  .dateData{
+    display: none;
+  }
+
+  .left_header{
+    /* width:100px; */
+    padding-inline: 0;
+  }
+
+  .nameData{
+    overflow: hidden;
+  }
+  .nameBox p{
+   
+    /* background-color: red; */
+    padding-right: 10px ;
+    width: 100%;
+  }
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./SideBar.module.css";
 import { FaPlus } from "react-icons/fa6";
 import { GoHome  } from "react-icons/go";
@@ -13,12 +13,32 @@ import { IoIosCloudOutline } from "react-icons/io";
 import { Link } from "react-router-dom";
 import AddNewPopUp from "../AddNewPopUp/AddNewPopUp";
 
-const SideBar = () => {
+const SideBar = (props) => {
   const [showNewAdd , setShowNewAdd] = useState(false);
+  const sideBarConRef = useRef(null);
+
+ 
+
+  useEffect(() =>{
+   
+    
+    if(props.showSideBar){
+      sideBarConRef.current.style.display = "block"
+    }else{
+      sideBarConRef.current.style.display = "none"
+
+    }
+  },[props.showSideBar])
+  
+  useEffect(() =>{
+    if(window.innerWidth < 700 ){
+      sideBarConRef.current.style.display = "none"
+     }
+  },[])
 
   return (
     <>
-      <div className={styles.sidebarCon}>
+      <div ref={sideBarConRef} className={styles.sidebarCon}>
         <div onClick={() => setShowNewAdd(true)} className={styles.new}>
           <FaPlus className={styles.plus} />
           <h3>New</h3>
@@ -67,8 +87,8 @@ const SideBar = () => {
             <p>Storage</p>
           </Link>
           <div className={styles.progressBarCon}>
-          <progress className={styles.progressBar} value={"10"} max={"100"}></progress>
-          <p>1.06 GB of 15 GB used </p>
+         <progress className={styles.progressBar} value={"10"} max={"100"}></progress>
+          <p >1.06 GB of 15 GB used </p>
         </div>
           <div className={styles.getCon} >
               <button className={styles.get}>Get more storage</button>

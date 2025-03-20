@@ -19,11 +19,12 @@ import BoxLayout from "../BoxLayout/BoxLayout";
 import { MdRestore } from "react-icons/md";
 import { MdOutlineDeleteForever } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
-import { addDoc, collection, deleteDoc, doc, getDocs } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDocs, setDoc } from "firebase/firestore";
 import { firestore, storage } from "../../firebase";
 import { deleteObject, ref } from "firebase/storage";
 import { addInFiles, removeItemFromBin, spreadData, spreadDataBin, spreadDataStarred } from "../../slices/userSlice";
 import BinCard from "../BinCard/BinCard";
+import { v4 } from "uuid";
 
 
 const Bin = () => {
@@ -159,7 +160,8 @@ const Bin = () => {
     async function name(params) {
       const restoreInFileData = collection(firestore , "files");
       const deleteInBinData = doc( firestore , "bin" , id);
-      await addDoc(restoreInFileData , downloadedContent);
+      // await addDoc(restoreInFileData , downloadedContent);
+      await setDoc(doc(firestore,"files" ,id),downloadedContent)
       alert("File added back to files database")
       await deleteDoc(deleteInBinData);
       alert("File deleted in bin database")
