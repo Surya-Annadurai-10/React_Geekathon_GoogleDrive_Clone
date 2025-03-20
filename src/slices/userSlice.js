@@ -301,6 +301,11 @@ const userSlice = createSlice({
              
                geminiData(state , action){
                 state.gemini.push(action.payload);
+               },
+               deleteInStarred(state ,action){
+                  let findIndex = state.starred.findIndex(ele => ele.id == action.payload.id)
+
+                  state.starred.splice(findIndex , 1);
                }
 
     }
@@ -308,4 +313,4 @@ const userSlice = createSlice({
 console.log(initState.bin);
 
 export const userReducers = userSlice.reducer;
-export const {addUser,geminiData,renameInFiles,renameInStarred,deleteSubTask,unIndentSubTask,markSubTaskAsCompleted,unStarTheSubTask,addSubTaskInStarred,replaceEditedTasksInRespectiveSubTaskArray,addSubTasks,moveToTopInTask,deleteFromTasks,setTaskCategoryObjInTaskSection,unStarTheTask,addInStarred,addEditedTasksInTasksArray,markAsUncompleted,deleteFromTasksCompleted,markAsCompleted,addTasks,unPinListNotes,addInPinnedArray,replaceEditedListNoteData,resetEditableValueInCompletedAndIncomplete,deleteListNotesFromNotesArray,addListNotesInNotesArray,markAsIncompleteAndShift,addInCompletedListNotes,deleteListNote,addInListNotes,replaceEditedDataInPinned,deleteInPinned,unPinData,collectInPinned,replaceEditedData,deleteNotes,collectNotesData,unstarData,spreadDataStarred,updateIsFavInFiles,starredData,removeItemFromBin,spreadDataBin,setDeletedInBin,addInFiles,spreadData,setShowNotification,setShowUploading} = userSlice.actions;
+export const {addUser,geminiData,renameInFiles,deleteInStarred,renameInStarred,deleteSubTask,unIndentSubTask,markSubTaskAsCompleted,unStarTheSubTask,addSubTaskInStarred,replaceEditedTasksInRespectiveSubTaskArray,addSubTasks,moveToTopInTask,deleteFromTasks,setTaskCategoryObjInTaskSection,unStarTheTask,addInStarred,addEditedTasksInTasksArray,markAsUncompleted,deleteFromTasksCompleted,markAsCompleted,addTasks,unPinListNotes,addInPinnedArray,replaceEditedListNoteData,resetEditableValueInCompletedAndIncomplete,deleteListNotesFromNotesArray,addListNotesInNotesArray,markAsIncompleteAndShift,addInCompletedListNotes,deleteListNote,addInListNotes,replaceEditedDataInPinned,deleteInPinned,unPinData,collectInPinned,replaceEditedData,deleteNotes,collectNotesData,unstarData,spreadDataStarred,updateIsFavInFiles,starredData,removeItemFromBin,spreadDataBin,setDeletedInBin,addInFiles,spreadData,setShowNotification,setShowUploading} = userSlice.actions;

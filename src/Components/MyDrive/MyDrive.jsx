@@ -28,7 +28,7 @@ import MyDriveCard from "../MyDriveCard/MyDriveCard";
 import { toast, ToastContainer } from "react-toastify";
 import { deleteDoc, doc, setDoc } from "firebase/firestore";
 import { getDownloadURL, ref } from "firebase/storage";
-import { setDeletedInBin } from "../../slices/userSlice";
+import { deleteInStarred, renameInStarred, setDeletedInBin } from "../../slices/userSlice";
 import { firestore, storage } from "../../firebase";
 // import { BsThreeDotsVertical } from "react-icons/bs";
 
@@ -41,6 +41,7 @@ const MyDrive = () => {
   const [filter, setFilter] = useState("");
   const dispatch = useDispatch();
   const stateData = useSelector((state) => state.user.files);
+  const stateDataStarred = useSelector((state) => state.user.starred);
 
   const handleDelete = (id) => {
     console.log("id:", id);
@@ -49,6 +50,7 @@ const MyDrive = () => {
     async function name() {
       try {
         const deleteDocRef = doc(firestore, "files", id);
+        const deleteDocRefStarred = doc(firestore, "starred", id);
         const deleteInFilesDataRef = ref(
           storage,
           `files/${downloadedContent.name}`
@@ -74,6 +76,15 @@ const MyDrive = () => {
           // transition: "easeInOut",
         });
         await deleteDoc(deleteDocRef);
+
+        const contains = stateDataStarred.some(Ele => id == Ele.id)
+        if(contains) {
+          await deleteDoc(deleteDocRefStarred);
+           dispatch(deleteInStarred({
+              id : id,
+             
+            })) 
+        }
 
         const deletedItem = stateData.find(
           (ele) => ele.id == downloadedContent.id
