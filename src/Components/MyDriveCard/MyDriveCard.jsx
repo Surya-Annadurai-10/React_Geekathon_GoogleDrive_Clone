@@ -346,8 +346,17 @@ const MyDriveCard = (props) => {
 
     console.log("propObj",propObj);
     
+    const contains = stateStarred.some(ele => id == ele.id)
+console.log("contains" , contains);
 
-    await updateDoc(starredDocRef, propObj);
+if(contains){
+  await updateDoc(starredDocRef, propObj);
+  dispatch(renameInStarred({
+    id : props.id,
+    value : propObj
+  }))
+}
+
     await updateDoc(filesDocRef, propObj);
         toast.success( "Renamed Successfully!", {
           position: "top-right",
@@ -366,10 +375,7 @@ const MyDriveCard = (props) => {
     // }))
     // alert("Updated in files database Successfully");
     // alert("Updated in starred database Successfully");
-    dispatch(renameInStarred({
-      id : props.id,
-      value : propObj
-    }))
+    
     dispatch(renameInFiles({
       id : props.id,
       value : propObj
@@ -396,7 +402,7 @@ const MyDriveCard = (props) => {
             <MdCancel style={{fontSize:"1.5rem"}} onClick={() => setIsEditMode(!isEditMode)} />
             </div>
           ) : (
-            <a onClick={(e) => e.stopPropagation()} href={props.imageURL} target="_blank">
+            <a onClick={(e) => e.stopPropagation} href={props.imageURL} target="_blank">
                 {" "}
                 <p>{props.name}</p>
               </a>

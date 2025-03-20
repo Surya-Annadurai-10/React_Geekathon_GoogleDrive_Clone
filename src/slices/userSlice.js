@@ -295,7 +295,7 @@ const userSlice = createSlice({
                 state.starred.splice(findIndex , 1 , action.payload.value);
               },
               renameInFiles(state , action){
-                let findIndex = state.files.findIndex(ele => ele.baseId == action.payload.id)
+                let findIndex = state.files.findIndex(ele => ele.id == action.payload.id)
                 state.files.splice(findIndex , 1 , action.payload.value);
               },
              
