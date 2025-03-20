@@ -354,7 +354,7 @@ if(contains){
   dispatch(renameInStarred({
     id : props.id,
     value : propObj
-  }))
+  })) 
 }
 
     await updateDoc(filesDocRef, propObj);
