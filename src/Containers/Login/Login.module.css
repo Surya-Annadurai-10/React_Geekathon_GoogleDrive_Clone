@@ -30,7 +30,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 180px;
+    width: 200px;
     gap: 0.5rem;
     height: 50px;
     background-color: #3B82F6;
@@ -42,9 +42,12 @@
 }
 
 
-.loginHead div:nth-child(2) button:hover{
-   
- background-color: #F8FAFD;
+.loginHead div:nth-child(2) button:hover, .loginBtn:hover{
+   cursor: pointer;
+ background-color: #1269ec;
+ transform: translateY(-5px) translateX(5px);
+ transition-duration: 0.5s;
+ box-shadow: 5px 10px 10px rgb(195, 195, 195);
 }
 
 .loginHead div:nth-child(2) button img{
@@ -73,12 +76,12 @@
 }
 
 .inner h1{
-    font-weight: 200 ;
+    font-weight: 400 ;
     font-size: 4rem;
 }
 
 .inner p {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     color: grey;
 }
 
